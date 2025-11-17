@@ -30,7 +30,7 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        // Untuk progress report boleh kembalikan dummy sederhana
+        // Progress report kembalikan dummy sederhana
         return view('products.edit', compact('id'));
     }
 
@@ -47,7 +47,7 @@ class ProductController extends Controller
             'price' => 'required|numeric',
         ]);
 
-        // Karena tugas hanya meminta route & form, simulasikan simpan dan redirect
+        // route & form, simulasikan simpan dan redirect
         return redirect()->route('products')->with('success', 'Product stored (dummy).');
     }
 

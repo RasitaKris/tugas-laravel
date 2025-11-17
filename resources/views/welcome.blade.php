@@ -2,18 +2,15 @@
 
 <div class="text-center">
 
-    {{-- Bagian Judul Sekolah --}}
     <h1 class="fw-bold" style="color:#5a7fff; font-size: 40px;">
         PKBM Bread of Life Adventist <br> Homeschooler Community
     </h1>
 
-    {{-- Motto --}}
     <h4 class="mt-2 mb-4" style="color:#ffb84f;">
         “Nurture Together, Grow Together”
     </h4>
 
     
-    {{-- Kartu Sambutan --}}
     <div class="card p-4 shadow-sm mx-auto" 
          style="max-width:600px; border-radius: 20px; background:#ffffffd9;">
 
