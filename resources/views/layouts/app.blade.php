@@ -3,47 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>School Product App</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         body {
-            background: #e7f4ff; /* biru pastel */
+            background: #eaf3ff; /* pastel blue */
+            font-family: "Inter", sans-serif;
         }
 
-        .navbar {
-            background: #ffefb0 !important; /* kuning pastel */
+        .top-welcome-bar {
+            background: #f7e9a8;
+            padding: 14px;
+            text-align: center;
+            font-size: 22px;
+            color: #364f85;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            margin-bottom: 25px;
         }
 
-        .card {
+        /* Hanya tampil di halaman welcome */
+        .welcome-only {
+            display: block;
+        }
+
+        /* Di halaman selain welcome → hide */
+        body.page-products .welcome-only {
+            display: none;
+        }
+
+        body.hide-welcome .welcome-header {
+            display: none;
+        }
+
+        /* Card styling */
+        .soft-card {
             background: white;
-            border-radius: 12px;
-            border: 1px solid #d7e5ff;
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
         }
 
-        .btn-primary {
-            background-color: #7ab8ff !important;
-            border: none;
+        .table thead th {
+            background: #90bfff; 
+            border-bottom: 2px solid #d0d8f0;
         }
 
-        .btn-warning {
-            background-color: #ffe28a !important;
-            border: none;
+        .table td, .table th {
+            border: 1px solid #d6def5 !important;
+            vertical-align: middle;
         }
+
     </style>
-
 </head>
-<body>
 
-<nav class="navbar p-3 shadow-sm">
-    <h4 class="m-auto fw-bold" style="color:#6b92ff;">Welcome to School Product App</h4>
-</nav>
+<body class="@yield('page_class')">
 
-<div class="container py-4">
-    {{ $slot }}
+    {{-- Header hanya untuk welcome page --}}
+    <div class="top-welcome-bar welcome-header">
+    Welcome to School Product App
 </div>
+
+    <div class="container pb-5">
+        {{ $slot }}
+    </div>
 
 </body>
 </html>
