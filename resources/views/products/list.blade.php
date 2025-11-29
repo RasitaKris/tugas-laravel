@@ -74,7 +74,7 @@
     }
 
     .custom-table tbody tr {
-        background: #76aef3;
+        background: #ffffff;
         transition: 0.2s ease;
         border-bottom: 1px solid #eef3ff;
     }
