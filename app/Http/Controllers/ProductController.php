@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
+    // categories (key => label)
     private function getCategories()
     {
         return [
@@ -17,6 +19,7 @@ class ProductController extends Controller
         ];
     }
 
+    // fallback list (unused if DB seeded) — tetap berguna saat testing tanpa DB
     private function getProducts()
     {
         return [
@@ -53,48 +56,63 @@ class ProductController extends Controller
         ];
     }
 
+    /**
+     * Index: fetch from DB (with search, filter, price range, sort).
+     */
     public function index(Request $request)
     {
-        $products = $this->getProducts();
         $categories = $this->getCategories();
 
-        // SEARCH
+        // Coba query ke database
+        $query = Product::query();
+
+        // Search (name or description) — case insensitive
         if ($request->filled('search')) {
             $q = strtolower($request->search);
-            $products = array_filter($products, function($p) use ($q) {
-                return str_contains(strtolower($p['name']), $q)
-                    || str_contains(strtolower($p['description']), $q);
+            $query->where(function($sub) use ($q) {
+                $sub->whereRaw('LOWER(name) LIKE ?', ["%$q%"])
+                    ->orWhereRaw('LOWER(description) LIKE ?', ["%$q%"]);
             });
         }
 
-        // CATEGORY
+        // Filter category
         if ($request->filled('category')) {
-            $products = array_filter($products, fn($p) => $p['category'] === $request->category);
+            $query->where('category', $request->category);
         }
 
-        // PRICE RANGE
+        // Price range
         if ($request->filled('min_price')) {
-            $products = array_filter($products, fn($p) => $p['price'] >= (int)$request->min_price);
+            $query->where('price', '>=', (int) $request->min_price);
         }
         if ($request->filled('max_price')) {
-            $products = array_filter($products, fn($p) => $p['price'] <= (int)$request->max_price);
+            $query->where('price', '<=', (int) $request->max_price);
         }
 
-        // SORTING
+        // Sorting: name, price_low, price_high
         if ($request->filled('sort')) {
             if ($request->sort === 'name') {
-                usort($products, fn($a, $b) => strcmp($a['name'], $b['name']));
-            } 
-            elseif ($request->sort === 'price') {
-                usort($products, fn($a, $b) => $a['price'] <=> $b['price']);
+                $query->orderBy('name', 'asc');
+            } elseif ($request->sort === 'price_low') {
+                $query->orderBy('price', 'asc');
+            } elseif ($request->sort === 'price_high') {
+                $query->orderBy('price', 'desc');
             }
-            elseif ($request->sort === 'price_desc') {
-                usort($products, fn($a, $b) => $b['price'] <=> $a['price']);
-            }
+        } else {
+            // default order
+            $query->orderBy('id', 'asc');
         }
 
-        // Remove preserved keys
-        $products = array_values($products);
+        // Ambil data
+        $products = $query->get();
+
+        // Jika DB kosong (mis. belum seeding), fallback pakai array agar view tetap tampil saat dev
+        if ($products->isEmpty()) {
+            $products = collect($this->getProducts());
+            // ubah array ke collection of objects mirip model agar view ($p->name) tetap bekerja
+            $products = $products->map(function($p) {
+                return (object) $p;
+            });
+        }
 
         return view('products.list', [
             'products' => $products,
@@ -105,5 +123,27 @@ class ProductController extends Controller
     public function create()
     {
         return view('products.form', ['categories' => $this->getCategories()]);
+    }
+
+    public function edit($id)
+    {
+        return view('products.edit', compact('id'));
+    }
+
+    public function show($id)
+    {
+        return view('products.show', compact('id'));
+    }
+
+    public function store(Request $request)
+    {
+        // Dummy: untuk tugas awal cukup redirect
+        return redirect()->route('products')->with('success', 'Product stored (dummy only).');
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Dummy update
+        return redirect()->route('products')->with('success', "Product updated: $id (dummy only).");
     }
 }

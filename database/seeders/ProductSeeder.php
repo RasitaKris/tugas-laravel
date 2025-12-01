@@ -1,0 +1,55 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\Product;
+
+class ProductSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $products = [
+            ['name'=>'School Registration Fee','description'=>'New student enrollment administration fee','category'=>'registration','price'=>150000],
+            ['name'=>'Elementary Tuition Fee (SPP SD)','description'=>'Monthly tuition for Elementary level','category'=>'registration','price'=>250000],
+            ['name'=>'Junior High Tuition Fee (SPP SMP)','description'=>'Monthly tuition for Junior High level','category'=>'registration','price'=>300000],
+
+            ['name'=>'Elementary Mid-Semester Exam Fee','description'=>'Mid-term exam fee for elementary','category'=>'exams','price'=>125000],
+            ['name'=>'Junior High Mid-Semester Exam Fee','description'=>'Mid-term exam fee for junior high','category'=>'exams','price'=>150000],
+            ['name'=>'Elementary Final Semester Exam Fee','description'=>'End-of-semester exam for elementary','category'=>'exams','price'=>175000],
+            ['name'=>'Junior High Final Semester Exam Fee','description'=>'End-of-semester exam for junior high','category'=>'exams','price'=>200000],
+            ['name'=>'Elementary Graduation Exam Fee','description'=>'Graduation exam fee for elementary','category'=>'exams','price'=>180000],
+            ['name'=>'Junior High Graduation Exam Fee','description'=>'Graduation exam fee for junior high','category'=>'exams','price'=>200000],
+
+            ['name'=>'Christian Religious Education Book','description'=>'Textbook for Christian Religious Education','category'=>'books','price'=>55000],
+            ['name'=>'Mathematics Textbook','description'=>'Mathematics learning textbook','category'=>'books','price'=>60000],
+            ['name'=>'Bahasa Indonesia Textbook','description'=>'Bahasa Indonesia learning textbook','category'=>'books','price'=>55000],
+            ['name'=>'Civics (PPKN) Textbook','description'=>'Civics subject textbook','category'=>'books','price'=>50000],
+            ['name'=>'Arts & Culture (SBDP) Textbook','description'=>'Arts and culture textbook','category'=>'books','price'=>50000],
+            ['name'=>'Physical Education (PE) Textbook','description'=>'PE subject textbook','category'=>'books','price'=>52000],
+            ['name'=>'English Textbook','description'=>'English learning textbook','category'=>'books','price'=>60000],
+            ['name'=>'Science (IPA) Textbook','description'=>'Science subject textbook','category'=>'books','price'=>65000],
+            ['name'=>'Social Studies (IPS) Textbook','description'=>'Social studies textbook','category'=>'books','price'=>62000],
+            ['name'=>'Handcraft & Skills Book','description'=>'Handcraft and skills textbook','category'=>'books','price'=>48000],
+
+            ['name'=>'School Uniform','description'=>'Complete school uniform','category'=>'items','price'=>180000],
+            ['name'=>'Student ID Card','description'=>'Official student identification card','category'=>'items','price'=>35000],
+            ['name'=>'Lanyard','description'=>'Lanyard for ID card','category'=>'items','price'=>15000],
+            ['name'=>'Uniform + ID Card + Lanyard Set','description'=>'Full set: uniform, ID card, and lanyard','category'=>'items','price'=>220000],
+            ['name'=>'Extracurricular Activity Fee','description'=>'Fee for extracurricular programs','category'=>'programs','price'=>160000],
+            ['name'=>'Practical Activity Fee','description'=>'Hands-on practical activity fee','category'=>'programs','price'=>85000],
+            ['name'=>'Elementary Graduation Ceremony Fee','description'=>'Graduation ceremony cost for elementary','category'=>'programs','price'=>300000],
+            ['name'=>'Junior High Graduation Ceremony Fee','description'=>'Graduation ceremony cost for junior high','category'=>'programs','price'=>350000],
+            ['name'=>'Elementary Graduation Gown','description'=>'Graduation gown for elementary students','category'=>'items','price'=>200000],
+            ['name'=>'Junior High Graduation Gown','description'=>'Graduation gown for junior high students','category'=>'items','price'=>220000],
+            ['name'=>'Offline School Activity Fee','description'=>'Fee for offline school events and outings','category'=>'programs','price'=>120000],
+        ];
+
+        foreach ($products as $p) {
+            Product::create($p);
+        }
+    }
+}

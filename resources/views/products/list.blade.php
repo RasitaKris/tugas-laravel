@@ -42,7 +42,6 @@
         font-weight: 600;
         border-radius: 10px;
     }
-
     .btn-pastel-blue:hover {
         background: #76aef3;
     }
@@ -54,7 +53,6 @@
         color: #5a4c00;
         border-radius: 10px;
     }
-
     .btn-pastel-yellow:hover {
         background: #ffd76b;
     }
@@ -64,7 +62,6 @@
         overflow: hidden;
         border: 1px solid #d4e3ff;
     }
-
     .custom-table thead {
         background: #dbe9ff !important;
         color: #2a3d66;
@@ -78,11 +75,9 @@
         transition: 0.2s ease;
         border-bottom: 1px solid #eef3ff;
     }
-
     .custom-table tbody tr:nth-child(even) {
         background: #f7faff;
     }
-
     .custom-table tbody tr:hover {
         background: #e8f1ff !important;
     }
@@ -97,7 +92,6 @@
     .custom-table th {
         border-right: 1px solid #dce6ff !important;
     }
-
     .custom-table td:last-child,
     .custom-table th:last-child {
         border-right: none !important;
@@ -106,7 +100,6 @@
     .custom-table tbody tr {
         border-bottom: 1px solid #dce6ff !important;
     }
-
     .custom-table thead tr {
         border-bottom: 2px solid #c7d9ff !important;
     }
@@ -124,7 +117,7 @@
     <div class="sub-text"><em>"Nurture Together, Grow Together"</em></div>
 </div>
 
-{{-- FILTER SECTION – NOW VERTICAL --}}
+{{-- FILTER SECTION – VERTICAL --}}
 <div class="filter-box">
     <form method="GET" action="{{ route('products') }}" class="row gy-3">
 
@@ -154,12 +147,19 @@
                 class="form-control" placeholder="Max price">
         </div>
 
+        {{-- SORT UPDATED --}}
         <div class="col-12">
             <select name="sort" class="form-select">
                 <option value="">Sort by...</option>
-                <option value="name" {{ request('sort')=='name'?'selected':'' }}>Name (A–Z)</option>
-                <option value="price" {{ request('sort')=='price'?'selected':'' }}>Price (Low → High)</option>
-                <option value="price_desc" {{ request('sort')=='price_desc'?'selected':'' }}>Price (High → Low)</option>
+                <option value="name" {{ request('sort')=='name'?'selected':'' }}>
+                    Name (A–Z)
+                </option>
+                <option value="price_low" {{ request('sort')=='price_low'?'selected':'' }}>
+                    Price (Low → High)
+                </option>
+                <option value="price_high" {{ request('sort')=='price_high'?'selected':'' }}>
+                    Price (High → Low)
+                </option>
             </select>
         </div>
 
@@ -196,11 +196,11 @@
         <tbody>
             @forelse($products as $p)
                 <tr>
-                    <td>{{ $p['id'] }}</td>
-                    <td>{{ $p['name'] }}</td>
-                    <td>{{ $p['description'] }}</td>
-                    <td>{{ $categories[$p['category']] ?? '' }}</td>
-                    <td>{{ number_format($p['price']) }}</td>
+                    <td>{{ $p->id }}</td>
+                    <td>{{ $p->name }}</td>
+                    <td>{{ $p->description }}</td>
+                    <td>{{ $categories[$p->category] ?? '' }}</td>
+                    <td>{{ number_format($p->price) }}</td>
                 </tr>
             @empty
                 <tr>
@@ -210,6 +210,8 @@
                 </tr>
             @endforelse
         </tbody>
+
     </table>
 </div>
+
 </x-layout>
