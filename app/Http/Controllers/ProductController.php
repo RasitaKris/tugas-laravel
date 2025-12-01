@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    // 5 categories (key => label)
     private function getCategories()
     {
         return [
@@ -18,7 +17,6 @@ class ProductController extends Controller
         ];
     }
 
-    // 30 products (English)
     private function getProducts()
     {
         return [
@@ -55,46 +53,47 @@ class ProductController extends Controller
         ];
     }
 
-    // INDEX: list + search + category + price filter + sort
     public function index(Request $request)
     {
         $products = $this->getProducts();
         $categories = $this->getCategories();
 
-        // Search by name or description
+        // SEARCH
         if ($request->filled('search')) {
             $q = strtolower($request->search);
             $products = array_filter($products, function($p) use ($q) {
-                return str_contains(strtolower($p['name']), $q) || str_contains(strtolower($p['description']), $q);
+                return str_contains(strtolower($p['name']), $q)
+                    || str_contains(strtolower($p['description']), $q);
             });
         }
 
-        // Filter by category
+        // CATEGORY
         if ($request->filled('category')) {
-            $cat = $request->category;
-            $products = array_filter($products, fn($p) => $p['category'] === $cat);
+            $products = array_filter($products, fn($p) => $p['category'] === $request->category);
         }
 
-        // Filter by price range
+        // PRICE RANGE
         if ($request->filled('min_price')) {
-            $min = (int) $request->min_price;
-            $products = array_filter($products, fn($p) => $p['price'] >= $min);
+            $products = array_filter($products, fn($p) => $p['price'] >= (int)$request->min_price);
         }
         if ($request->filled('max_price')) {
-            $max = (int) $request->max_price;
-            $products = array_filter($products, fn($p) => $p['price'] <= $max);
+            $products = array_filter($products, fn($p) => $p['price'] <= (int)$request->max_price);
         }
 
-        // Sorting
+        // SORTING
         if ($request->filled('sort')) {
             if ($request->sort === 'name') {
-                usort($products, fn($a,$b) => strcmp($a['name'],$b['name']));
-            } elseif ($request->sort === 'price') {
-                usort($products, fn($a,$b) => $a['price'] <=> $b['price']);
+                usort($products, fn($a, $b) => strcmp($a['name'], $b['name']));
+            } 
+            elseif ($request->sort === 'price') {
+                usort($products, fn($a, $b) => $a['price'] <=> $b['price']);
+            }
+            elseif ($request->sort === 'price_desc') {
+                usort($products, fn($a, $b) => $b['price'] <=> $a['price']);
             }
         }
 
-        // make sure products is array (array_filter returns array with preserved keys)
+        // Remove preserved keys
         $products = array_values($products);
 
         return view('products.list', [
@@ -106,27 +105,5 @@ class ProductController extends Controller
     public function create()
     {
         return view('products.form', ['categories' => $this->getCategories()]);
-    }
-
-    public function edit($id)
-    {
-        return view('products.edit', compact('id'));
-    }
-
-    public function show($id)
-    {
-        return view('products.show', compact('id'));
-    }
-
-    public function store(Request $request)
-    {
-        // dummy store
-        return redirect()->route('products')->with('success', 'Product stored (dummy only).');
-    }
-
-    public function update(Request $request, $id)
-    {
-        // dummy update
-        return redirect()->route('products')->with('success', "Product updated: $id (dummy only).");
     }
 }

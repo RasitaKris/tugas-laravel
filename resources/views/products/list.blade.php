@@ -93,24 +93,20 @@
         color: #334a7d;
     }
 
-    /* garis pembatas antar kolom */
     .custom-table td, 
     .custom-table th {
         border-right: 1px solid #dce6ff !important;
     }
 
-    /* hapus garis kanan kolom terakhir */
     .custom-table td:last-child,
     .custom-table th:last-child {
         border-right: none !important;
     }
 
-    /* garis pembatas antar baris */
     .custom-table tbody tr {
         border-bottom: 1px solid #dce6ff !important;
     }
 
-    /* header garis bawah lebih tegas */
     .custom-table thead tr {
         border-bottom: 2px solid #c7d9ff !important;
     }
@@ -128,15 +124,16 @@
     <div class="sub-text"><em>"Nurture Together, Grow Together"</em></div>
 </div>
 
+{{-- FILTER SECTION – NOW VERTICAL --}}
 <div class="filter-box">
-    <form method="GET" action="{{ route('products') }}" class="row g-3">
+    <form method="GET" action="{{ route('products') }}" class="row gy-3">
 
-        <div class="col-md-4">
+        <div class="col-12">
             <input type="text" name="search" value="{{ request('search') }}"
                 class="form-control" placeholder="Search product name or description...">
         </div>
 
-        <div class="col-md-3">
+        <div class="col-12">
             <select name="category" class="form-select">
                 <option value="">All categories</option>
                 @foreach($categories as $key => $label)
@@ -147,27 +144,29 @@
             </select>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-12">
             <input type="number" name="min_price" value="{{ request('min_price') }}"
                 class="form-control" placeholder="Min price">
         </div>
 
-        <div class="col-md-2">
+        <div class="col-12">
             <input type="number" name="max_price" value="{{ request('max_price') }}"
                 class="form-control" placeholder="Max price">
         </div>
 
-        <div class="col-md-3">
+        <div class="col-12">
             <select name="sort" class="form-select">
                 <option value="">Sort by...</option>
                 <option value="name" {{ request('sort')=='name'?'selected':'' }}>Name (A–Z)</option>
                 <option value="price" {{ request('sort')=='price'?'selected':'' }}>Price (Low → High)</option>
+                <option value="price_desc" {{ request('sort')=='price_desc'?'selected':'' }}>Price (High → Low)</option>
             </select>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-12">
             <button class="btn btn-pastel-blue w-100">Apply</button>
         </div>
+
     </form>
 </div>
 
@@ -213,5 +212,4 @@
         </tbody>
     </table>
 </div>
-
 </x-layout>
