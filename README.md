@@ -37,26 +37,21 @@ Progress Report 1:
 
 Progress Report 2:
 ✔ 5 categories
-✔ 30 products created
-✔ Search bar
-✔ Filter by price range
-✔ Filter by category
-✔ Sorting
-✔ Pastel professional UI (welcome page & product list)
+✔ Display list of 30 predefined school products
+✔ Search by name or description  
+✔ Filter by:
+  - Category  
+  - Minimum price  
+  - Maximum price  
+✔ Sorting options:
+  - Name (A–Z)
+  - Price (Low → High)
+  - Price (High → Low)
 
-Folder Structure:
-app/
-resources/
-    views/
-        layouts/
-            app.blade.php
-        components/
-            layout.blade.php
-        products/
-            list.blade.php
-            form.blade.php
-            edit.blade.php
-            show.blade.php
-routes/
-    web.php
-public/
+### 💾 This project is created as part of Module 8 (Seeding, Factory, and Faker).
+- **Migration** for products table  
+- **Seeder (ProductSeeder)** containing 30 real predefined products  
+- **Factory (ProductFactory)** to generate optional dummy data  
+- **DatabaseSeeder** runs:
+  - ProductSeeder (real data)
+  - Optional: ProductFactory for additional fake items  
