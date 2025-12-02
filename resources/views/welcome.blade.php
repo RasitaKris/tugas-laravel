@@ -1,105 +1,124 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>School Product App</title>
+{{-- resources/views/welcome.blade.php --}}
+<x-layout :pageTitle="'PKBM Bread of Life - Home'">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  {{-- HERO --}}
+  <div class="hero row align-items-center gx-4">
+    <div class="col-md-7 text-white">
+      <div class="title">PKBM Bread of Life Adventist Homeschooler Community</div>
+      <div class="lead">Empowering community-based education through online learning, personalized tutoring, and character development.</div>
 
-    <style>
-        body {
-            background: linear-gradient(180deg, #f7faff 0%, #e8f1ff 100%);
-            font-family: "Inter", sans-serif;
-            padding-top: 50px;
-        }
+      <p class="mt-3" style="max-width:520px;">
+        PKBM Bread of Life provides accessible, faith-based non-formal education for children who learn best in a caring community environment.
+        Our programs include Paket A (equivalent to elementary), Paket B (equivalent to junior high), and Paket C (equivalent to senior high), delivered via online classes, guided practice, and community activities.
+      </p>
 
-        .top-banner {
-            background: #ffe9a8;
-            padding: 14px;
-            font-weight: 700;
-            font-size: 18px;
-            text-align: center;
-            border-bottom: 2px solid #ffdc7d;
-            color: #2a3d66;
-        }
-
-        .title-block {
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        .school-name {
-            font-size: 36px;
-            font-weight: 800;
-            color: #2a4ea3;
-            line-height: 1.2;
-        }
-
-        .motto {
-            font-size: 18px;
-            margin-top: 10px;
-            color: #cf8a00;
-            font-weight: 600;
-        }
-
-        .welcome-card {
-            max-width: 700px;
-            margin: 40px auto;
-            background: #ffffff;
-            padding: 35px;
-            border-radius: 18px;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .welcome-text {
-            font-size: 17px;
-            color: #3c4b66;
-            margin-bottom: 30px;
-            line-height: 1.5;
-        }
-
-        .btn-main {
-            background: #90bfff;
-            border: none;
-            padding: 12px 22px;
-            font-size: 17px;
-            border-radius: 12px;
-            font-weight: 600;
-        }
-
-        .btn-main:hover {
-            background: #76aef3;
-        }
-    </style>
-</head>
-
-<body>
-
-    <div class="top-banner">
-        Welcome to School Product App
+      <div class="mt-3 d-flex gap-2">
+        <a class="btn btn-primary-accent" href="https://forms.gle/G6LWLY7nU5UwUpHH7" target="_blank" rel="noopener">New Student Registration</a>
+        <a class="btn btn-yellow" href="{{ url('/about') }}">Learn More About PKBM</a>
+      </div>
     </div>
 
-    <div class="title-block">
-        <div class="school-name">
-            PKBM Bread of Life<br>
-            Adventist Homeschooler Community
+    <div class="col-md-5 text-end">
+      <img src="{{ asset('images/hero/online-teaching.jpg') }}" alt="Online teaching" class="img-fluid rounded-3 shadow" style="max-height:320px; object-fit:cover;">
+    </div>
+  </div>
+
+  {{-- ABOUT + QUICK CARDS --}}
+  <div class="row mt-4 g-3">
+    <div class="col-md-8">
+      <div class="soft-card">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <div class="section-title">About PKBM Bread of Life</div>
+            <div class="muted-sm mt-1">
+              PKBM Bread of Life was established to provide community-centered education that supports the government's nine-year compulsory education through alternative learning. We serve families seeking a character-driven, faith-based education with flexible online delivery for students who cannot attend formal school or prefer homeschooling.
+            </div>
+          </div>
+          <div class="text-end">
+            <a href="{{ url('/about') }}" class="btn btn-outline-primary">Read More</a>
+          </div>
         </div>
-
-        <div class="motto">“Nurture Together, Grow Together”</div>
+      </div>
     </div>
 
-    <div class="welcome-card">
-        <p class="welcome-text">
-            Welcome to our school’s platform for managing tuition payments and exploring
-            educational products provided by the school in a simple and convenient way.
-        </p>
+    <div class="col-md-4">
+      <div class="soft-card">
+        <div class="fw-bold">Quick Links</div>
+        <ul class="list-unstyled mt-2 mb-0">
+          <li class="my-2"><a href="{{ url('/school-rules') }}">School Rules</a></li>
+          <li class="my-2"><a href="{{ url('/parents-guidelines') }}">Parents' Guidelines</a></li>
+          <li class="my-2"><a href="{{ url('/tutors-guidelines') }}">Tutor Guidelines</a></li>
+          <li class="my-2"><a href="{{ url('/communication-flow') }}">Communication Flow</a></li>
+          <li class="my-2"><a href="{{ route('products') }}">Payments & Product Management</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-        <a href="{{ route('products') }}" class="btn btn-main">
-            Go to Product List
-        </a>
+  {{-- RULES / GUIDELINES SUMMARY CARDS --}}
+  <div class="row mt-4 g-3">
+    <div class="col-md-3">
+      <div class="soft-card text-center">
+        <div class="fw-bold">School Rules</div>
+        <div class="muted-sm mt-2">Attend on time, open camera, dress appropriately, and respect others.</div>
+        <div class="mt-3"><a class="btn btn-sm btn-primary-accent" href="{{ url('/school-rules') }}">Read Rules</a></div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="soft-card text-center">
+        <div class="fw-bold">Parents' Guidelines</div>
+        <div class="muted-sm mt-2">Support learning at home, attend activities, submit assignments on time, and assist with journaling.</div>
+        <div class="mt-3"><a class="btn btn-sm btn-primary-accent" href="{{ url('/parents-guidelines') }}">Read More</a></div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="soft-card text-center">
+        <div class="fw-bold">Tutors' Guidelines</div>
+        <div class="muted-sm mt-2">Prepare lessons, start on time, create a Christ-centered online learning environment.</div>
+        <div class="mt-3"><a class="btn btn-sm btn-primary-accent" href="{{ url('/tutors-guidelines') }}">Read More</a></div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="soft-card text-center">
+        <div class="fw-bold">Communication Flow</div>
+        <div class="muted-sm mt-2">Dedicated channels: HRT for parent issues, Tutors for academic questions, Finance for payments.</div>
+        <div class="mt-3"><a class="btn btn-sm btn-primary-accent" href="{{ url('/communication-flow') }}">View Flow</a></div>
+      </div>
+    </div>
+  </div>
+
+  {{-- GALLERY --}}
+  <div class="mt-5">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="section-title">Gallery — Recent Activities</div>
+      <div class="muted-sm">Snapshots from our cooking class and student worship sessions</div>
     </div>
 
-</body>
-</html>
+    <div class="row mt-3 g-3">
+      <div class="col-md-4">
+        <div class="soft-card">
+          <img src="{{ asset('images/gallery/cooking.jpg') }}" alt="Cooking class" class="gallery-img">
+          <div class="mt-2 fw-bold">Cooking Class</div>
+          <div class="muted-sm">Hands-on practical activity for life skills.</div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="soft-card">
+          <img src="{{ asset('images/gallery/students-worship.jpg') }}" alt="Students worship" class="gallery-img">
+          <div class="mt-2 fw-bold">Student Worship (Online)</div>
+          <div class="muted-sm">Weekly worship and community prayer via Zoom.</div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="soft-card">
+          <img src="{{ asset('images/gallery/group-activities.jpg') }}" alt="Group activities" class="gallery-img">
+          <div class="mt-2 fw-bold">Group Activities</div>
+          <div class="muted-sm">Community projects & events.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</x-layout>
