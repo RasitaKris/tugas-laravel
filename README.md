@@ -48,7 +48,7 @@ Progress Report 2:
   - Price (Low → High)
   - Price (High → Low)
 
-### 💾 This project is created as part of Module 8 (Seeding, Factory, and Faker).
+### This project is created as part of Module 8 (Seeding, Factory, and Faker).
 - **Migration** for products table  
 - **Seeder (ProductSeeder)** containing 30 real predefined products  
 - **Factory (ProductFactory)** to generate optional dummy data  
