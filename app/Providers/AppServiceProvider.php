@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\CartItem;
+use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Membuat variabel global cartCount utk semua Blade
+        view()->composer('*', function ($view) {
+            $count = 0;
+
+            // Jika user login, hitung jumlah item dalam keranjang
+            if (Auth::check()) {
+                $count = CartItem::where('user_id', Auth::id())->sum('quantity');
+            }
+
+            // Share ke semua view
+            $view->with('cartCount', $count);
+        });
     }
 }

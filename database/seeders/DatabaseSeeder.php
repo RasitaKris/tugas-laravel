@@ -11,10 +11,10 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        // Jalankan seeder produk asli
+        // Jalankan seeder 
         $this->call(ProductSeeder::class);
 
-        // Optional: seed 1 user (tidak wajib)
+        
         \App\Models\User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',

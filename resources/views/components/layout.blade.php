@@ -91,23 +91,79 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navCollapse">
+        
+        {{-- ⭐⭐⭐ NAVIGATION BAR ⭐⭐⭐ --}}
         <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
-          <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('about') ?? url('/about') }}">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('school.rules') ?? url('/school-rules') }}">School Rules</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('parents.guidelines') ?? url('/parents-guidelines') }}">Parents</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('tutors.guidelines') ?? url('/tutors-guidelines') }}">Tutors</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('communication') ?? url('/communication-flow') }}">Communication</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('products') }}">Payments & Products</a></li>
-          <li class="nav-item ms-2">
-            <a class="btn btn-primary-accent" href="https://forms.gle/G6LWLY7nU5UwUpHH7" target="_blank" rel="noopener">New Student Registration</a>
-          </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url('/') }}">Home</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('about') }}">About</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('school.rules') }}">School Rules</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('parents.guidelines') }}">Parents</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('tutors.guidelines') }}">Tutors</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('products') }}">Payments & Products</a>
+            </li>
+
+            {{-- 🛒 CART ICON + BADGE --}}
+            <li class="nav-item position-relative">
+              <a class="nav-link" href="{{ route('cart.index') }}" style="font-size:20px;">
+                🛒
+              </a>
+
+              @if(!empty($cartCount) && $cartCount > 0)
+                <span class="badge bg-danger position-absolute top-0 start-100 translate-middle"
+                      style="font-size: 10px; border-radius: 50%;">
+                  {{ $cartCount }}
+                </span>
+              @endif
+            </li>
+
+            {{-- LOGIN / LOGOUT --}}
+            @auth
+              <li class="nav-item">
+                <form action="{{ route('logout') }}" method="POST">
+                  @csrf
+                  <button class="btn btn-danger btn-sm">Logout</button>
+                </form>
+              </li>
+
+            @else
+              <li class="nav-item">
+                <a class="nav-link" href="{{ route('login') }}">Login</a>
+              </li>
+            @endauth
+
+            <li class="nav-item ms-2">
+              <a class="btn btn-primary-accent"
+                href="https://forms.gle/G6LWLY7nU5UwUpHH7"
+                target="_blank"
+                rel="noopener">
+                New Student Registration
+              </a>
+            </li>
+
         </ul>
+        {{-- END NAVBAR --}}
       </div>
     </div>
   </nav>
 
-  {{-- Page slot --}}
+  {{-- Page Slot --}}
   <div class="container py-4">
     {{ $slot }}
   </div>

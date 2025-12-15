@@ -1,153 +1,201 @@
 {{-- resources/views/products/list.blade.php --}}
-<x-layout :pageTitle="'Products - School'">
+<x-layout :pageTitle="'Payments & Products'">
 
-  <div class="row g-4">
-    {{-- LEFT: hero / title --}}
-    <div class="col-12">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <div>
-          <h3 class="mb-0">Payments & Product Management</h3>
-          <div class="text-muted">PKBM Bread of Life Adventist Homeschooler Community</div>
-        </div>
+<div class="container py-4">
 
-        <div class="d-flex gap-2">
-          <a href="{{ route('products.create') }}" class="btn btn-sm btn-muted">+ Add New Product</a>
-          <a href="{{ route('products') }}" class="btn btn-sm btn-accent">Refresh</a>
-        </div>
-      </div>
-    </div>
-
-    {{-- SIDEBAR FILTER --}}
-    <div class="col-lg-4">
-      <div class="filter-box">
-        <form method="GET" action="{{ route('products') }}">
-          <div class="mb-3">
-            <input type="text" name="search" value="{{ request('search') }}" class="form-control" placeholder="Search name or description...">
-          </div>
-
-          <div class="mb-3">
-            <select name="category" class="form-select">
-              <option value="">All categories</option>
-              @foreach($categories as $key => $label)
-                <option value="{{ $key }}" {{ request('category') == $key ? 'selected' : '' }}>{{ $label }}</option>
-              @endforeach
-            </select>
-          </div>
-
-          <div class="row g-2 mb-3">
-            <div class="col">
-              <input type="number" name="min_price" class="form-control" placeholder="Min price" value="{{ request('min_price') }}">
-            </div>
-            <div class="col">
-              <input type="number" name="max_price" class="form-control" placeholder="Max price" value="{{ request('max_price') }}">
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <select name="sort" class="form-select">
-              <option value="">Sort by...</option>
-              <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Name (A–Z)</option>
-              <option value="price_low" {{ request('sort') == 'price_low' ? 'selected' : '' }}>Price (Low → High)</option>
-              <option value="price_high" {{ request('sort') == 'price_high' ? 'selected' : '' }}>Price (High → Low)</option>
-            </select>
-          </div>
-
-          <div class="d-grid">
-            <button class="btn btn-accent">Apply</button>
-          </div>
-        </form>
-      </div>
-
-      {{-- Small info card --}}
-      <div class="soft-card mt-3">
-        <div class="small text-muted">Showing <strong>{{ $products->count() > 20 ? 20 : $products->count() }}</strong> of {{ $products->count() }} products</div>
-        <div class="mt-2 text-muted" style="font-size:13px;">Tip: gunakan fitur pencarian untuk menemukan produk lebih cepat.</div>
-      </div>
-    </div>
-
-    {{-- MAIN: cards / table --}}
-    <div class="col-lg-8">
-      {{-- Grid cards (show up to 20 products) --}}
-      <div class="row g-3">
-        @foreach($products->take(20) as $p)
-          <div class="col-12 col-sm-6">
-            <div class="soft-card product-card h-100 d-flex flex-column">
-              <div class="mb-2" style="min-height:150px;">
-                {{-- Placeholder image based on category (free pics) --}}
-                @php
-                  $img = match($p->category ?? '') {
-                    'books' => 'https://images.pexels.com/photos/590493/pexels-photo-590493.jpeg',
-                    'exams' => 'https://images.pexels.com/photos/4145198/pexels-photo-4145198.jpeg',
-                    'registration' => 'https://images.pexels.com/photos/3184438/pexels-photo-3184438.jpeg',
-                    'items' => 'https://images.pexels.com/photos/159711/book-open-pages-read-159711.jpeg',
-                    'programs' => 'https://images.pexels.com/photos/1181396/pexels-photo-1181396.jpeg',
-                    default => 'https://images.pexels.com/photos/4145198/pexels-photo-4145198.jpeg',
-                  };
-                @endphp
-
-                <img src="{{ $img }}?auto=compress&cs=tinysrgb&dpr=1&w=800" alt="product" class="w-100 rounded-2">
-              </div>
-
-              <div class="mt-auto">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <div>
-                    <div class="fw-bold">{{ $p->name }}</div>
-                    <div class="text-muted" style="font-size:13px;">{{ Str::limit($p->description, 80) }}</div>
-                  </div>
-                  <div class="text-end">
-                    <div class="fw-bold">Rp {{ number_format($p->price,0,',','.') }}</div>
-                    <div class="text-muted" style="font-size:13px;">{{ $categories[$p->category] ?? $p->category }}</div>
-                  </div>
-                </div>
-
-                <div class="d-flex gap-2">
-                  <a href="{{ route('products.show', $p->id) }}" class="btn btn-sm btn-outline-primary">Detail</a>
-                  <a href="{{ route('products.edit', $p->id) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        @endforeach
-      </div>
-
-      {{-- If you prefer table (optional), keep it below as fallback --}}
-      <div class="mt-4 soft-card">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <div class="fw-bold">Table view (first 20)</div>
-          <div class="text-muted">Quick overview</div>
-        </div>
-
-        <div class="table-responsive">
-          <table class="table custom-table mb-0">
-            <thead>
-              <tr>
-                <th style="width:60px">#</th>
-                <th>Product</th>
-                <th>Description</th>
-                <th style="width:160px">Category</th>
-                <th style="width:160px">Price (IDR)</th>
-              </tr>
-            </thead>
-            <tbody>
-              @forelse($products->take(20) as $p)
-                <tr>
-                  <td>{{ $p->id }}</td>
-                  <td>{{ $p->name }}</td>
-                  <td>{{ Str::limit($p->description, 60) }}</td>
-                  <td>{{ $categories[$p->category] ?? $p->category }}</td>
-                  <td>Rp {{ number_format($p->price,0,',','.') }}</td>
-                </tr>
-              @empty
-                <tr>
-                  <td colspan="5" class="text-center text-muted p-4">No products found.</td>
-                </tr>
-              @endforelse
-            </tbody>
-          </table>
+  {{-- HEADER --}}
+  <div class="col-12 mb-4">
+    <div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <div>
+        <h3 class="mb-0">Payments & Product Management</h3>
+        <div class="subtitle text-white-50">
+          PKBM Bread of Life Adventist Homeschool Community
         </div>
       </div>
 
+      <div class="d-flex gap-2">
+        <a href="{{ route('products.create') }}" class="btn btn-light fw-semibold">
+          + Add New Product
+        </a>
+        <a href="{{ route('products') }}" class="btn btn-warning fw-semibold">
+          Refresh
+        </a>
+      </div>
     </div>
   </div>
+
+  {{-- FILTER --}}
+  <form method="GET" action="{{ route('products') }}"
+        class="row g-2 align-items-end mb-4 p-3 bg-light rounded shadow-sm">
+
+    <div class="col-md-3">
+      <label class="form-label">Search</label>
+      <input type="text" name="search"
+             value="{{ request('search') }}"
+             class="form-control"
+             placeholder="Name or description">
+    </div>
+
+    <div class="col-md-2">
+      <label class="form-label">Category</label>
+      <select name="category" class="form-select">
+        <option value="">All</option>
+        @foreach($categories as $key => $label)
+          <option value="{{ $key }}" {{ request('category') == $key ? 'selected' : '' }}>
+            {{ $label }}
+          </option>
+        @endforeach
+      </select>
+    </div>
+
+    <div class="col-md-2">
+      <label class="form-label">Min Price</label>
+      <input type="number" name="min_price"
+             value="{{ request('min_price') }}"
+             class="form-control">
+    </div>
+
+    <div class="col-md-2">
+      <label class="form-label">Max Price</label>
+      <input type="number" name="max_price"
+             value="{{ request('max_price') }}"
+             class="form-control">
+    </div>
+
+    <div class="col-md-2">
+      <label class="form-label">Sort</label>
+      <select name="sort" class="form-select">
+        <option value="">Default</option>
+        <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Name (A–Z)</option>
+        <option value="price_low" {{ request('sort') == 'price_low' ? 'selected' : '' }}>Price Low → High</option>
+        <option value="price_high" {{ request('sort') == 'price_high' ? 'selected' : '' }}>Price High → Low</option>
+      </select>
+    </div>
+
+    <div class="col-md-1 d-grid">
+      <button class="btn btn-success">Apply</button>
+    </div>
+  </form>
+
+  {{-- PRODUCT LIST --}}
+  <div class="row g-3">
+
+    @forelse($products as $p)
+    <div class="col-12 col-sm-6 col-md-4">
+      <div class="card h-100 shadow-sm">
+
+        {{-- IMAGE LOGIC --}}
+        @php
+          $name = strtolower($p->name ?? '');
+
+          $img = match ($p->category ?? '') {
+
+            'books' => \Illuminate\Support\Str::contains($name, ['bible'])
+                ? asset('images/products/bible.jpg')
+                : asset('images/products/books.jpg'),
+
+            'exams' => asset('images/products/exams.jpg'),
+
+            'registration' => asset('images/products/registration.jpg'),
+
+            'programs' => \Illuminate\Support\Str::contains($name, ['smp', 'junior'])
+                ? asset('images/products/programs-smp.jpg')
+                : asset('images/products/programs-sd.jpg'),
+
+            'graduation' => \Illuminate\Support\Str::contains($name, ['smp', 'junior'])
+                ? asset('images/products/graduation-smp.jpg')
+                : asset('images/products/graduation-sd.jpg'),
+
+            'items' => \Illuminate\Support\Str::contains($name, ['seragam', 'uniform', 'baju'])
+                ? asset('images/products/item-seragam.jpg')
+                : (\Illuminate\Support\Str::contains($name, ['id', 'card'])
+                    ? asset('images/products/item-id-card.jpg')
+                    : (\Illuminate\Support\Str::contains($name, ['lanyard'])
+                        ? asset('images/products/item-lanyard.jpg')
+                        : asset('images/products/item-toga.jpg')
+                      )
+                  ),
+
+
+            default => asset('images/products/books.jpg'),
+          };
+        @endphp
+
+        <div style="height:150px; overflow:hidden;">
+          <img src="{{ $img }}" class="w-100" style="height:150px; object-fit:cover;">
+        </div>
+
+        <div class="card-body d-flex flex-column">
+          <h6 class="fw-bold mb-1">{{ $p->name }}</h6>
+          <div class="text-muted small mb-2">
+            {{ \Illuminate\Support\Str::limit($p->description, 70) }}
+          </div>
+
+          <div class="mt-auto d-flex justify-content-between align-items-center">
+            <div class="fw-bold">
+              Rp {{ number_format($p->price,0,',','.') }}
+            </div>
+            <span class="badge bg-secondary">
+              {{ $categories[$p->category] ?? $p->category }}
+            </span>
+          </div>
+        </div>
+
+        {{-- ACTION BUTTONS --}}
+        <div class="card-footer d-flex flex-wrap gap-2 justify-content-center">
+
+          <form action="{{ route('cart.add', $p->id) }}" method="POST">
+            @csrf
+            <button class="btn btn-primary btn-sm product-action-btn">Add to Cart</button>
+          </form>
+
+          <a href="{{ route('products.show', $p->id) }}"
+             class="btn btn-primary btn-sm product-action-btn">Detail</a>
+
+          <a href="{{ route('products.edit', $p->id) }}"
+             class="btn btn-primary btn-sm product-action-btn">Edit</a>
+
+          <form action="{{ route('products.delete', $p->id) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button class="btn btn-primary btn-sm product-action-btn"
+                    onclick="return confirm('Delete this product?')">
+              Delete
+            </button>
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+    @empty
+      <div class="col-12">
+        <div class="alert alert-info text-center">No products found.</div>
+      </div>
+    @endforelse
+
+  </div>
+
+  <div class="mt-4 d-flex justify-content-center">
+    {{ $products->withQueryString()->links('pagination::bootstrap-5') }}
+  </div>
+
+</div>
+
+<style>
+  .page-header {
+    background: linear-gradient(135deg, #0d6efd, #0a58ca);
+    color: #fff;
+    border-radius: 12px;
+    padding: 18px 22px;
+    border-left: 6px solid #ffc107;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+  }
+  .product-action-btn {
+    font-size: 13px;
+    padding: 6px 12px;
+    height: 36px;
+  }
+</style>
 
 </x-layout>

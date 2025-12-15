@@ -7,143 +7,123 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
-    // categories (key => label)
-    private function getCategories()
-    {
-        return [
-            'registration' => 'Registration & Tuition',
-            'exams' => 'Exams',
-            'books' => 'Books & Materials',
-            'items' => 'School Items',
-            'programs' => 'Programs & Activities',
-        ];
-    }
-
-    // fallback list (unused if DB seeded) — tetap berguna saat testing tanpa DB
-    private function getProducts()
-    {
-        return [
-            ['id'=>1,'name'=>'School Registration Fee','description'=>'New student enrollment administration fee','category'=>'registration','price'=>150000],
-            ['id'=>2,'name'=>'Elementary Tuition Fee (SPP SD)','description'=>'Monthly tuition for Elementary level','category'=>'registration','price'=>250000],
-            ['id'=>3,'name'=>'Junior High Tuition Fee (SPP SMP)','description'=>'Monthly tuition for Junior High level','category'=>'registration','price'=>300000],
-            ['id'=>4,'name'=>'Elementary Mid-Semester Exam Fee','description'=>'Mid-term exam fee for elementary','category'=>'exams','price'=>125000],
-            ['id'=>5,'name'=>'Junior High Mid-Semester Exam Fee','description'=>'Mid-term exam fee for junior high','category'=>'exams','price'=>150000],
-            ['id'=>6,'name'=>'Elementary Final Semester Exam Fee','description'=>'End-of-semester exam for elementary','category'=>'exams','price'=>175000],
-            ['id'=>7,'name'=>'Junior High Final Semester Exam Fee','description'=>'End-of-semester exam for junior high','category'=>'exams','price'=>200000],
-            ['id'=>8,'name'=>'Elementary Graduation Exam Fee','description'=>'Graduation exam fee for elementary','category'=>'exams','price'=>180000],
-            ['id'=>9,'name'=>'Junior High Graduation Exam Fee','description'=>'Graduation exam fee for junior high','category'=>'exams','price'=>200000],
-            ['id'=>10,'name'=>'Christian Religious Education Book','description'=>'Textbook for Christian Religious Education','category'=>'books','price'=>55000],
-            ['id'=>11,'name'=>'Mathematics Textbook','description'=>'Mathematics learning textbook','category'=>'books','price'=>60000],
-            ['id'=>12,'name'=>'Bahasa Indonesia Textbook','description'=>'Bahasa Indonesia learning textbook','category'=>'books','price'=>55000],
-            ['id'=>13,'name'=>'Civics (PPKN) Textbook','description'=>'Civics subject textbook','category'=>'books','price'=>50000],
-            ['id'=>14,'name'=>'Arts & Culture (SBDP) Textbook','description'=>'Arts and culture textbook','category'=>'books','price'=>50000],
-            ['id'=>15,'name'=>'Physical Education (PE) Textbook','description'=>'PE subject textbook','category'=>'books','price'=>52000],
-            ['id'=>16,'name'=>'English Textbook','description'=>'English learning textbook','category'=>'books','price'=>60000],
-            ['id'=>17,'name'=>'Science (IPA) Textbook','description'=>'Science subject textbook','category'=>'books','price'=>65000],
-            ['id'=>18,'name'=>'Social Studies (IPS) Textbook','description'=>'Social studies textbook','category'=>'books','price'=>62000],
-            ['id'=>19,'name'=>'Handcraft & Skills Book','description'=>'Handcraft and skills textbook','category'=>'books','price'=>48000],
-            ['id'=>20,'name'=>'School Uniform','description'=>'Complete school uniform','category'=>'items','price'=>180000],
-            ['id'=>21,'name'=>'Student ID Card','description'=>'Official student identification card','category'=>'items','price'=>35000],
-            ['id'=>22,'name'=>'Lanyard','description'=>'Lanyard for ID card','category'=>'items','price'=>15000],
-            ['id'=>23,'name'=>'Uniform + ID Card + Lanyard Set','description'=>'Full set: uniform, ID card, and lanyard','category'=>'items','price'=>220000],
-            ['id'=>24,'name'=>'Extracurricular Activity Fee','description'=>'Fee for extracurricular programs','category'=>'programs','price'=>160000],
-            ['id'=>25,'name'=>'Practical Activity Fee','description'=>'Hands-on practical activity fee','category'=>'programs','price'=>85000],
-            ['id'=>26,'name'=>'Elementary Graduation Ceremony Fee','description'=>'Graduation ceremony cost for elementary','category'=>'programs','price'=>300000],
-            ['id'=>27,'name'=>'Junior High Graduation Ceremony Fee','description'=>'Graduation ceremony cost for junior high','category'=>'programs','price'=>350000],
-            ['id'=>28,'name'=>'Elementary Graduation Gown','description'=>'Graduation gown for elementary students','category'=>'items','price'=>200000],
-            ['id'=>29,'name'=>'Junior High Graduation Gown','description'=>'Graduation gown for junior high students','category'=>'items','price'=>220000],
-            ['id'=>30,'name'=>'Offline School Activity Fee','description'=>'Fee for offline school events and outings','category'=>'programs','price'=>120000],
-        ];
-    }
-
-    /**
-     * Index: fetch from DB (with search, filter, price range, sort).
-     */
+    // LIST + FILTER + PAGINATION
     public function index(Request $request)
     {
-        $categories = $this->getCategories();
-
-        // Coba query ke database
         $query = Product::query();
 
-        // Search (name or description) — case insensitive
         if ($request->filled('search')) {
-            $q = strtolower($request->search);
-            $query->where(function($sub) use ($q) {
-                $sub->whereRaw('LOWER(name) LIKE ?', ["%$q%"])
-                    ->orWhereRaw('LOWER(description) LIKE ?', ["%$q%"]);
+            $q = $request->search;
+            $query->where(function ($sub) use ($q) {
+                $sub->where('name', 'like', "%$q%")
+                    ->orWhere('description', 'like', "%$q%");
             });
         }
 
-        // Filter category
         if ($request->filled('category')) {
             $query->where('category', $request->category);
         }
 
-        // Price range
         if ($request->filled('min_price')) {
-            $query->where('price', '>=', (int) $request->min_price);
-        }
-        if ($request->filled('max_price')) {
-            $query->where('price', '<=', (int) $request->max_price);
+            $query->where('price', '>=', $request->min_price);
         }
 
-        // Sorting: name, price_low, price_high
+        if ($request->filled('max_price')) {
+            $query->where('price', '<=', $request->max_price);
+        }
+
         if ($request->filled('sort')) {
-            if ($request->sort === 'name') {
+            if ($request->sort == 'name') {
                 $query->orderBy('name', 'asc');
-            } elseif ($request->sort === 'price_low') {
+            } elseif ($request->sort == 'price_low') {
                 $query->orderBy('price', 'asc');
-            } elseif ($request->sort === 'price_high') {
+            } elseif ($request->sort == 'price_high') {
                 $query->orderBy('price', 'desc');
             }
         } else {
-            // default order
-            $query->orderBy('id', 'asc');
+            $query->latest();
         }
 
-        // Ambil data
-        $products = $query->get();
-
-        // Jika DB kosong (mis. belum seeding), fallback pakai array agar view tetap tampil saat dev
-        if ($products->isEmpty()) {
-            $products = collect($this->getProducts());
-            // ubah array ke collection of objects mirip model agar view ($p->name) tetap bekerja
-            $products = $products->map(function($p) {
-                return (object) $p;
-            });
-        }
+        $products = $query->paginate(9)->withQueryString();
 
         return view('products.list', [
             'products' => $products,
-            'categories' => $categories,
+            'categories' => $this->getCategories()
         ]);
     }
 
+    // FORM ADD
     public function create()
     {
-        return view('products.form', ['categories' => $this->getCategories()]);
+        return view('products.form', [
+            'categories' => $this->getCategories()
+        ]);
     }
 
-    public function edit($id)
-    {
-        return view('products.edit', compact('id'));
-    }
-
-    public function show($id)
-    {
-        return view('products.show', compact('id'));
-    }
-
+    // SIMPAN DATA 
     public function store(Request $request)
     {
-        // Dummy: untuk tugas awal cukup redirect
-        return redirect()->route('products')->with('success', 'Product stored (dummy only).');
+        $request->validate([
+            'name' => 'required',
+            'price' => 'required|numeric',
+            'category' => 'required',
+            'description' => 'nullable'
+        ]);
+
+        Product::create($request->all());
+
+        return redirect()->route('products')
+            ->with('success', 'Product added successfully!');
     }
 
+    // DETAIL
+    public function show($id)
+    {
+        $product = Product::findOrFail($id);
+        return view('products.show', compact('product'));
+    }
+
+    // FORM EDIT
+    public function edit($id)
+    {
+        $product = Product::findOrFail($id);
+
+        return view('products.edit', [   
+            'product' => $product,
+            'categories' => $this->getCategories()
+        ]);
+    }
+
+
+    // UPDATE
     public function update(Request $request, $id)
     {
-        // Dummy update
-        return redirect()->route('products')->with('success', "Product updated: $id (dummy only).");
+        $product = Product::findOrFail($id);
+        $product->update($request->all());
+
+        return redirect()->route('products')
+            ->with('success', 'Product updated!');
+    }
+
+    // DELETE
+    public function destroy($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->delete();
+
+        return redirect()->route('products')->with('success', 'Product deleted successfully!');
+    }
+
+
+    // CATEGORY
+    private function getCategories()
+    {
+        return [
+            'books' => 'Books',
+            'exams' => 'Exams',
+            'registration' => 'Registration',
+            'items' => 'Items',
+            'programs' => 'Programs'
+        ];
     }
 }
