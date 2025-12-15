@@ -1,7 +1,7 @@
 {{-- resources/views/welcome.blade.php --}}
 <x-layout :pageTitle="'PKBM Bread of Life - Home'">
 
-  {{-- HERO --}}
+
   <div class="hero row align-items-center gx-4">
     <div class="col-md-7 text-white">
       <div class="title">PKBM Bread of Life Adventist Homeschooler Community</div>
@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  {{-- ABOUT + QUICK CARDS --}}
+ 
   <div class="row mt-4 g-3">
     <div class="col-md-8">
       <div class="soft-card">
@@ -64,7 +64,7 @@
     </div>
   </div>
 
-  {{-- RULES / GUIDELINES SUMMARY --}}
+ 
   <div class="row mt-4 g-3">
     <div class="col-md-4">
       <div class="soft-card text-center">
@@ -97,7 +97,7 @@
     </div>
   </div>
 
-  {{-- ✅ GALLERY (CLICK TO ZOOM) --}}
+ 
   <div class="mt-5">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <div class="section-title">Gallery — Recent Activities</div>
@@ -134,7 +134,7 @@
     </div>
   </div>
 
-  {{-- ✅ IMAGE PREVIEW MODAL --}}
+
   <div class="modal fade" id="imageModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content bg-transparent border-0">
@@ -145,7 +145,7 @@
     </div>
   </div>
 
-  {{-- ✅ SCRIPT --}}
+
   <script>
     function showImage(src) {
       document.getElementById('previewImage').src = src;

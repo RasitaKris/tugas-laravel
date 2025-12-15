@@ -5,7 +5,7 @@
         <a href="{{ route('orders.index') }}" class="btn btn-secondary btn-sm">← Back to Orders</a>
     </div>
 
-    {{-- ORDER INFO CARD --}}
+   
     <div class="card shadow-sm mb-4">
         <div class="card-body">
             <h5 class="fw-bold mb-2">Order #{{ $order->id }}</h5>
@@ -34,7 +34,7 @@
         </div>
     </div>
 
-    {{-- ORDER ITEMS TABLE --}}
+ 
     <h4 class="fw-bold mb-3">🛒 Items in this Order</h4>
 
     <table class="table table-bordered align-middle">

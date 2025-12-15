@@ -9,9 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    // ===============================
     // TAMPIL KERANJANG
-    // ===============================
     public function index()
     {
         $cart = CartItem::where('user_id', Auth::id())
@@ -23,9 +21,8 @@ class CartController extends Controller
         return view('cart.index', compact('cart', 'total'));
     }
 
-    // ===============================
+
     // TAMBAH PRODUK KE KERANJANG
-    // ===============================
     public function add(Request $request, $product_id)
     {
         $product = Product::findOrFail($product_id);
@@ -48,9 +45,7 @@ class CartController extends Controller
         return back()->with('success', 'Produk ditambahkan ke keranjang!');
     }
 
-    // ===============================
     // UPDATE JUMLAH PRODUK
-    // ===============================
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -70,9 +65,8 @@ class CartController extends Controller
         return back()->with('success', 'Jumlah diperbarui.');
     }
 
-    // ===============================
+ 
     // HAPUS PRODUK DARI KERANJANG
-    // ===============================
     public function remove($id)
     {
         $cartItem = CartItem::findOrFail($id);

@@ -3,7 +3,7 @@
 
 <div class="container py-4">
 
-  {{-- HEADER --}}
+ 
   <div class="col-12 mb-4">
     <div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-2">
       <div>
@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  {{-- FILTER --}}
+  
   <form method="GET" action="{{ route('products') }}"
         class="row g-2 align-items-end mb-4 p-3 bg-light rounded shadow-sm">
 
@@ -77,14 +77,14 @@
     </div>
   </form>
 
-  {{-- PRODUCT LIST --}}
+  
   <div class="row g-3">
 
     @forelse($products as $p)
     <div class="col-12 col-sm-6 col-md-4">
       <div class="card h-100 shadow-sm">
 
-        {{-- IMAGE LOGIC --}}
+       
         @php
           $name = strtolower($p->name ?? '');
 

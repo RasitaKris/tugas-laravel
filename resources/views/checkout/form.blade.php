@@ -11,7 +11,7 @@
     <form action="{{ route('checkout.process') }}" method="POST" class="soft-card mt-3">
         @csrf
 
-        {{-- ============ SHIPPING INFO ============ --}}
+       
         <div class="mb-3">
             <label class="form-label fw-bold">Full Name</label>
             <input type="text" name="shipping_name" 
@@ -35,7 +35,6 @@
                       required></textarea>
         </div>
 
-        {{-- ============ PAYMENT METHOD ============ --}}
         <div class="mb-3">
             <label class="form-label fw-bold">Payment Method</label>
             <select name="payment_method" class="form-select" required>
@@ -45,7 +44,7 @@
             </select>
         </div>
 
-        {{-- ============ ORDER SUMMARY ============ --}}
+        
         <div class="border rounded p-3 mt-4 bg-light">
             <h5 class="mb-0">Your Items</h5>
 

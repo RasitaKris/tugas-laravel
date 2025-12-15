@@ -3,7 +3,7 @@
 
 <div class="container py-4">
 
-  {{-- HEADER --}}
+ 
   <div class="mb-4">
     <h3 class="fw-bold text-primary">Edit Product</h3>
     <small class="text-muted">Update product information below</small>
@@ -11,7 +11,6 @@
 
   <div class="card p-4 shadow-sm">
 
-    {{-- INFO ID (SEKARANG AMAN) --}}
     <p class="text-muted small mb-3">
       Editing Product ID: <b>{{ $product->id }}</b>
     </p>
@@ -19,7 +18,7 @@
     <form action="{{ route('products.update', $product->id) }}" method="POST">
       @csrf
 
-      {{-- NAME --}}
+     
       <div class="mb-3">
         <label class="form-label">Product Name</label>
         <input type="text"
@@ -29,7 +28,7 @@
                required>
       </div>
 
-      {{-- DESCRIPTION --}}
+      
       <div class="mb-3">
         <label class="form-label">Description</label>
         <textarea name="description"
@@ -37,7 +36,7 @@
                   class="form-control">{{ old('description', $product->description) }}</textarea>
       </div>
 
-      {{-- CATEGORY --}}
+     
       <div class="mb-3">
         <label class="form-label">Category</label>
         <select name="category" class="form-select" required>
@@ -50,7 +49,6 @@
         </select>
       </div>
 
-      {{-- PRICE --}}
       <div class="mb-3">
         <label class="form-label">Price (IDR)</label>
         <input type="number"
@@ -60,7 +58,7 @@
                required>
       </div>
 
-      {{-- BUTTON --}}
+     
       <div class="d-flex gap-2">
         <button class="btn btn-primary">Update</button>
         <a href="{{ route('products') }}" class="btn btn-secondary">Cancel</a>

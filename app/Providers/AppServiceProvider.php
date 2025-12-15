@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('*', function ($view) {
             $count = 0;
 
-            // Jika user login, hitung jumlah item dalam keranjang
+            // User login, hitung keranjang
             if (Auth::check()) {
                 $count = CartItem::where('user_id', Auth::id())->sum('quantity');
             }

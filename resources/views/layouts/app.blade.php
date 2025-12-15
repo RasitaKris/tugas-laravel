@@ -24,12 +24,12 @@
             margin-bottom: 25px;
         }
 
-        /* Hanya tampil di halaman welcome */
+    
         .welcome-only {
             display: block;
         }
 
-        /* Di halaman selain welcome → hide */
+       
         body.page-products .welcome-only {
             display: none;
         }
@@ -38,7 +38,7 @@
             display: none;
         }
 
-        /* Card styling */
+       
         .soft-card {
             background: white;
             border-radius: 18px;
@@ -61,7 +61,7 @@
 
 <body class="@yield('page_class')">
 
-    {{-- Header hanya untuk welcome page --}}
+    
     <div class="top-welcome-bar welcome-header">
     Welcome to School Product App
 </div>

@@ -51,7 +51,7 @@
                             <form action="{{ route('cart.update', $item->id) }}" method="POST" class="d-flex align-items-start gap-2">
                                 @csrf
 
-                                <!-- Input number dengan dropdown custom scrollable -->
+                                
                                 <div class="position-relative">
                                     <input type="number" min="1" name="quantity" value="{{ $item->quantity }}"
                                            class="form-control form-control-sm qty-input" style="max-width:80px;">
@@ -101,7 +101,7 @@
 
     @endif
 
-    <!-- Script untuk dropdown scrollable -->
+
     <script>
         document.querySelectorAll('.qty-input').forEach(function(input){
             const dropdown = input.nextElementSibling;

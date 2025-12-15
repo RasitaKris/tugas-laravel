@@ -82,8 +82,8 @@
 </head>
 <body>
 
-  {{-- NAVBAR --}}
-  <nav class="navbar navbar-expand-lg bg-transparent py-3">
+
+<nav class="navbar navbar-expand-lg bg-transparent py-3">
     <div class="container">
       <a class="navbar-brand" href="{{ url('/') }}">PKBM Bread of Life</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navCollapse">
@@ -91,100 +91,110 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navCollapse">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
+
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url('/') }}">Home</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('about') }}">About</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('school.rules') }}">School Rules</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('parents.guidelines') }}">Parents</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('tutors.guidelines') }}">Tutors</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('products') }}">Payments & Products</a>
+        </li>
+
         
-        {{-- ⭐⭐⭐ NAVIGATION BAR ⭐⭐⭐ --}}
-        <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
+        
+        @auth
 
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url('/') }}">Home</a>
-            </li>
+          
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('orders.index') }}">
+              My Orders
+            </a>
+          </li>
 
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('about') }}">About</a>
-            </li>
+         
+          <li class="nav-item position-relative">
+            <a class="nav-link" href="{{ route('cart.index') }}" style="font-size:20px;">
+              🛒
+            </a>
 
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('school.rules') }}">School Rules</a>
-            </li>
+            @if(!empty($cartCount) && $cartCount > 0)
+              <span class="badge bg-danger position-absolute top-0 start-100 translate-middle"
+                    style="font-size:10px; border-radius:50%;">
+                {{ $cartCount }}
+              </span>
+            @endif
+          </li>
 
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('parents.guidelines') }}">Parents</a>
-            </li>
+          
+          <li class="nav-item">
+            <form action="{{ route('logout') }}" method="POST">
+              @csrf
+              <button class="btn btn-danger btn-sm">
+                Logout
+              </button>
+            </form>
+          </li>
 
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('tutors.guidelines') }}">Tutors</a>
-            </li>
+        @else
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('login') }}">Login</a>
+          </li>
+        @endauth
 
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('products') }}">Payments & Products</a>
-            </li>
+        
+        <li class="nav-item ms-2">
+          <a class="btn btn-primary-accent"
+             href="https://forms.gle/G6LWLY7nU5UwUpHH7"
+             target="_blank">
+            New Student Registration
+          </a>
+        </li>
 
-            {{-- 🛒 CART ICON + BADGE --}}
-            <li class="nav-item position-relative">
-              <a class="nav-link" href="{{ route('cart.index') }}" style="font-size:20px;">
-                🛒
-              </a>
-
-              @if(!empty($cartCount) && $cartCount > 0)
-                <span class="badge bg-danger position-absolute top-0 start-100 translate-middle"
-                      style="font-size: 10px; border-radius: 50%;">
-                  {{ $cartCount }}
-                </span>
-              @endif
-            </li>
-
-            {{-- LOGIN / LOGOUT --}}
-            @auth
-              <li class="nav-item">
-                <form action="{{ route('logout') }}" method="POST">
-                  @csrf
-                  <button class="btn btn-danger btn-sm">Logout</button>
-                </form>
-              </li>
-
-            @else
-              <li class="nav-item">
-                <a class="nav-link" href="{{ route('login') }}">Login</a>
-              </li>
-            @endauth
-
-            <li class="nav-item ms-2">
-              <a class="btn btn-primary-accent"
-                href="https://forms.gle/G6LWLY7nU5UwUpHH7"
-                target="_blank"
-                rel="noopener">
-                New Student Registration
-              </a>
-            </li>
-
-        </ul>
-        {{-- END NAVBAR --}}
-      </div>
+      </ul>
     </div>
-  </nav>
-
-  {{-- Page Slot --}}
-  <div class="container py-4">
-    {{ $slot }}
   </div>
+</nav>
 
-  {{-- Footer --}}
-  <footer class="site-footer">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8">
-          <div class="fw-bold">PKBM Bread of Life Adventist Homeschooler Community</div>
-          <div class="muted-sm">Committed to community-based, holistic online learning for children and families.</div>
-        </div>
-        <div class="col-md-4 text-md-end mt-3 mt-md-0">
-          <div class="muted-sm">Contact: hello@pkbm-bolhs.example</div>
-          <div class="muted-sm">Jl. Salemba Raya No 47, Jakarta Pusat</div>
+
+<div class="container py-4">
+  {{ $slot }}
+</div>
+
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="fw-bold">PKBM Bread of Life Adventist Homeschooler Community</div>
+        <div class="text-muted small">
+          "Nurture Together, Grow Together"
         </div>
       </div>
+      <div class="col-md-4 text-md-end mt-3 mt-md-0">
+        <div class="text-muted small">pkbm-bolhs.sch.id</div>
+        <div class="text-muted small">Tangerang</div>
+      </div>
     </div>
-  </footer>
+  </div>
+</footer>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
