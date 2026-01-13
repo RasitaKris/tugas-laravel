@@ -10,9 +10,19 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'description',
+        'name_id',
+        'name_en',
+        'description_id',
+        'description_en',
         'category',
         'price',
+        'image',
     ];
+
+    public function wishlistedBy()
+{
+    return $this->belongsToMany(User::class, 'wishlists')
+        ->withTimestamps();
+}
+
 }

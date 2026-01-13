@@ -12,13 +12,13 @@ class ProductFactory extends Factory
         $categories = [
             'registration',
             'exams',
-            'books',
+            'book',
             'items',
             'programs',
         ];
 
         return [
-            'name' => fake()->words(3, true),   // contoh: "Basic Learning Book"
+            'name' => fake()->words(3, true),   
             'description' => fake()->sentence(8),
             'category' => fake()->randomElement($categories),
             'price' => fake()->numberBetween(15000, 350000),

@@ -8,9 +8,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
+
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+  
     use HasFactory, Notifiable;
+
+    public function wishlist()
+{
+    return $this->belongsToMany(Product::class, 'wishlists')
+        ->withTimestamps();
+}
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +28,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone', 
+        'photo',
+        'address',
     ];
 
     /**

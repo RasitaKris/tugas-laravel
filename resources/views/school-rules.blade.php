@@ -1,20 +1,48 @@
-{{-- resources/views/school-rules.blade.php --}}
-<x-layout :pageTitle="'School Rules'">
-  <div class="soft-card">
-    <div class="section-title">School Rules</div>
-    <p class="muted-sm mt-2">We expect students to follow these guidelines to create a respectful and productive online learning environment.</p>
+<x-layout :pageTitle="__('rules.title')">
 
-    <ul class="mt-3">
-      <li><strong>Be on time:</strong> Join class early or on time.</li>
-      <li><strong>Camera on:</strong> Keep your camera open during class unless the teacher allows otherwise.</li>
-      <li><strong>Use real name:</strong> Display your real name (e.g., Ester_Grade4).</li>
-      <li><strong>Chat responsibly:</strong> Use chat only for relevant questions and polite comments.</li>
-      <li><strong>Dress appropriately:</strong> Dress neatly and comfortably for class.</li>
-      <li><strong>No eating during sessions:</strong> Avoid eating during class, chapel, or flag ceremony sessions out of respect.</li>
-    </ul>
+    <style>
+        .rules-card {
+            background: #fff; border-radius: 16px; padding: 40px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.03); border: 1px solid #f3f4f6;
+        }
+        .list-group-custom .list-item {
+            display: flex; align-items: start; margin-bottom: 16px;
+            color: #4a5568; font-size: 1.05rem; line-height: 1.6;
+        }
+        .list-icon {
+            color: #198754; font-size: 1.2rem; margin-right: 12px; margin-top: 2px;
+        }
+    </style>
 
-    <div class="mt-3">
-      <a class="btn btn-primary-accent" href="{{ url('/') }}">Back to Home</a>
+    <div class="container py-4">
+        <div class="rules-card col-lg-10 mx-auto">
+            
+        // Header
+            <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                <i class="bi bi-clipboard-check text-primary me-3" style="font-size: 2.5rem;"></i>
+                <div>
+                    <h2 class="fw-bold mb-1 text-dark">{{ __('rules.title') }}</h2>
+                    <p class="text-muted mb-0">{{ __('rules.intro') }}</p>
+                </div>
+            </div>
+
+            // List Rules
+            <div class="list-group-custom">
+                @foreach(__('rules.rules') as $rule)
+                    <div class="list-item">
+                        <i class="bi bi-check-circle-fill list-icon"></i>
+                        <span>{{ $rule }}</span>
+                    </div>
+                @endforeach
+            </div>
+
+            // Button Back
+            <div class="mt-4 pt-3 border-top text-center">
+                <a href="{{ url('/') }}" class="btn btn-outline-primary rounded-pill px-4 fw-bold">
+                    <i class="bi bi-arrow-left me-2"></i> {{ __('rules.back') }}
+                </a>
+            </div>
+        </div>
     </div>
-  </div>
+
 </x-layout>

@@ -11,10 +11,14 @@ class Order extends Model
         'shipping_name',
         'shipping_phone',
         'shipping_address',
+        'shipping_service',
+        'shipping_cost', 
         'payment_method',
+        'payment_channel',
         'total',
         'status',
     ];
+
 
     public function items()
     {

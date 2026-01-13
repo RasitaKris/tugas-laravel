@@ -1,19 +1,48 @@
-{{-- resources/views/parents-guidelines.blade.php --}}
-<x-layout :pageTitle="'Parents Guidelines'">
-  <div class="soft-card">
-    <div class="section-title">Parents' Guidelines</div>
-    <p class="muted-sm mt-2">Parents are partners in learning. Your active support helps students succeed.</p>
+<x-layout :pageTitle="__('parents.title')">
 
-    <ul class="mt-3">
-      <li>Support your child's learning activities at home and encourage regular study.</li>
-      <li>Attend school activities like book readings and other events when possible.</li>
-      <li>Participate in at-home learning tasks: assignments, journals, devotions, practical activities.</li>
-      <li>Submit assignments on time according to the schedule.</li>
-      <li>Accompany and assist younger children during online sessions or practical tasks.</li>
-    </ul>
+    <style>
+        .parents-card {
+            background: #fff; border-radius: 16px; padding: 40px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.03); border: 1px solid #f3f4f6;
+        }
+        .list-group-custom .list-item {
+            display: flex; align-items: start; margin-bottom: 16px;
+            color: #4a5568; font-size: 1.05rem; line-height: 1.6;
+        }
+        .list-icon {
+            color: #0d6efd; font-size: 1.2rem; margin-right: 12px; margin-top: 2px;
+        }
+    </style>
 
-    <div class="mt-3">
-      <a class="btn btn-primary-accent" href="{{ url('/') }}">Back to Home</a>
+    <div class="container py-4">
+        <div class="parents-card col-lg-10 mx-auto">
+            
+        // Header 
+            <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                <i class="bi bi-people text-info me-3" style="font-size: 2.5rem;"></i>
+                <div>
+                    <h2 class="fw-bold mb-1 text-dark">{{ __('parents.title') }}</h2>
+                    <p class="text-muted mb-0">{{ __('parents.intro') }}</p>
+                </div>
+            </div>
+
+            // List Points 
+            <div class="list-group-custom">
+                @foreach(__('parents.points') as $point)
+                    <div class="list-item">
+                        <i class="bi bi-check-circle-fill list-icon"></i>
+                        <span>{{ $point }}</span>
+                    </div>
+                @endforeach
+            </div>
+
+            // Button Back 
+            <div class="mt-4 pt-3 border-top text-center">
+                <a href="{{ url('/') }}" class="btn btn-outline-primary rounded-pill px-4 fw-bold">
+                    <i class="bi bi-arrow-left me-2"></i> {{ __('parents.back') }}
+                </a>
+            </div>
+        </div>
     </div>
-  </div>
+
 </x-layout>

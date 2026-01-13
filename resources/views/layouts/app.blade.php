@@ -9,7 +9,7 @@
 
     <style>
         body {
-            background: #eaf3ff; /* pastel blue */
+            background: #eaf3ff; 
             font-family: "Inter", sans-serif;
         }
 

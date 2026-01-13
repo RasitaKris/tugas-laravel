@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
+use Illuminate\Http\Request;
+use App\Models\Order; 
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
     public function index()
-    {
-        $orders = Order::where('user_id', auth()->id())->latest()->get();
-        return view('order.index', compact('orders'));
-    }
+{
+    
+    $orders = Order::where('user_id', Auth::id())
+                ->orderBy('created_at', 'desc')
+                ->paginate(10); 
+
+    return view('order.index', compact('orders'));
+}
 
     public function show($id)
     {

@@ -2,81 +2,85 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\CartItem;
 use App\Models\Product;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    // TAMPIL KERANJANG
     public function index()
     {
+        // 1. Ambil Data Keranjang 
         $cart = CartItem::where('user_id', Auth::id())
+            ->whereHas('product')
             ->with('product')
             ->get();
 
-        $total = $cart->sum(fn($i) => $i->quantity * $i->product->price);
+        // 2. Hitung Total Harga
+        $total = $cart->sum(function ($item) {
+            return $item->product ? $item->quantity * $item->product->price : 0;
+        });
 
-        return view('cart.index', compact('cart', 'total'));
+        // 3.Hitung Jumlah Item untuk Badge Notifikasi di Navigasi
+        $cartCount = $cart->sum('quantity');
+
+        // 4. Kirim semua variabel ke View (termasuk cartCount)
+        return view('cart.index', compact('cart', 'total', 'cartCount'));
     }
 
-
-    // TAMBAH PRODUK KE KERANJANG
-    public function add(Request $request, $product_id)
+    public function add($product_id)
     {
+        // Mencari Produk
         $product = Product::findOrFail($product_id);
 
-        $item = CartItem::where('user_id', Auth::id())
-            ->where('product_id', $product->id)
-            ->first();
-
-        if ($item) {
-            $item->quantity += 1;
-            $item->save();
-        } else {
-            CartItem::create([
-                'user_id' => Auth::id(),
+        $item = CartItem::firstOrCreate(
+            [
+                'user_id'    => Auth::id(),
                 'product_id' => $product->id,
-                'quantity' => 1,
-            ]);
-        }
+            ],
+            [
+                'quantity' => 0,
+            ]
+        );
 
-        return back()->with('success', 'Produk ditambahkan ke keranjang!');
+        $item->increment('quantity');
+
+        return back()->with('success', __('app.cart_added'));
     }
 
-    // UPDATE JUMLAH PRODUK
     public function update(Request $request, $id)
     {
         $request->validate([
-            'quantity' => 'required|integer|min:1'
+            'quantity' => 'required|integer|min:1',
         ]);
 
-        $cartItem = CartItem::findOrFail($id);
+        $item = CartItem::with('product')->findOrFail($id);
 
-        if ($cartItem->user_id !== Auth::id()) {
-            abort(403);
+        // Security check
+        abort_if($item->user_id !== Auth::id(), 403);
+
+        // Jika product sudah tidak ada, hapus item
+        if (!$item->product) {
+            $item->delete();
+            return back()->with('success', __('app.cart_removed'));
         }
 
-        $cartItem->update([
-            'quantity' => $request->quantity
+        $item->update([
+            'quantity' => $request->quantity,
         ]);
 
-        return back()->with('success', 'Jumlah diperbarui.');
+        return back()->with('success', __('app.cart_updated'));
     }
 
- 
-    // HAPUS PRODUK DARI KERANJANG
     public function remove($id)
     {
-        $cartItem = CartItem::findOrFail($id);
+        $item = CartItem::findOrFail($id);
 
-        if ($cartItem->user_id !== Auth::id()) {
-            abort(403);
-        }
+        abort_if($item->user_id !== Auth::id(), 403);
 
-        $cartItem->delete();
+        $item->delete();
 
-        return back()->with('success', 'Item dihapus.');
+        return back()->with('success', __('app.cart_removed'));
     }
 }

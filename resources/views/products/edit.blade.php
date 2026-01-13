@@ -1,72 +1,90 @@
 {{-- resources/views/products/edit.blade.php --}}
-<x-layout :pageTitle="'Edit Product'">
+<x-layout :pageTitle="__('product.edit_title')">
 
 <div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            
+            <div class="card shadow-sm">
+              
+                //CARD HEADER: Judul & Tombol Kembali
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold text-primary">{{ __('product.edit_title') }}</h5>
+                    <a href="{{ route('products') }}" class="btn btn-sm btn-outline-secondary">
+                        &larr; {{ __('product.cancel_button') }}
+                    </a>
+                </div>
 
- 
-  <div class="mb-4">
-    <h3 class="fw-bold text-primary">Edit Product</h3>
-    <small class="text-muted">Update product information below</small>
-  </div>
+                <div class="card-body p-4">
 
-  <div class="card p-4 shadow-sm">
+                    //Info ID 
+                    <div class="alert alert-light border mb-4 py-2 small text-muted">
+                        <i class="bi bi-info-circle"></i> {{ __('product.editing_id') }} <strong>{{ $product->id }}</strong>
+                    </div>
 
-    <p class="text-muted small mb-3">
-      Editing Product ID: <b>{{ $product->id }}</b>
-    </p>
+                    // FORM START 
+                    <form action="{{ route('products.update', $product->id) }}" method="POST">
+                        @csrf
+                        {{-- @method('PUT') <-- SAYA HAPUS AGAR TIDAK ERROR (Karena Route Anda POST) --}}
 
-    <form action="{{ route('products.update', $product->id) }}" method="POST">
-      @csrf
+                        // NAME
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">{{ __('product.name_label') }}</label>
+                            <input type="text"
+                                   name="name"
+                                   value="{{ old('name', $product->name) }}"
+                                   class="form-control"
+                                   required>
+                        </div>
 
-     
-      <div class="mb-3">
-        <label class="form-label">Product Name</label>
-        <input type="text"
-               name="name"
-               value="{{ old('name', $product->name) }}"
-               class="form-control"
-               required>
-      </div>
+                        // CATEGORY 
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">{{ __('product.category_label') }}</label>
+                            <select name="category" class="form-select" required>
+                                @foreach($categories as $key => $label)
+                                    <option value="{{ $key }}"
+                                        {{ old('category', $product->category) == $key ? 'selected' : '' }}>
+                                        {{ $label }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
-      
-      <div class="mb-3">
-        <label class="form-label">Description</label>
-        <textarea name="description"
-                  rows="4"
-                  class="form-control">{{ old('description', $product->description) }}</textarea>
-      </div>
+                        // DESCRIPTION
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">{{ __('product.description_label') }}</label>
+                            <textarea name="description"
+                                      rows="4"
+                                      class="form-control">{{ old('description', $product->description) }}</textarea>
+                        </div>
 
-     
-      <div class="mb-3">
-        <label class="form-label">Category</label>
-        <select name="category" class="form-select" required>
-          @foreach($categories as $key => $label)
-            <option value="{{ $key }}"
-              {{ old('category', $product->category) == $key ? 'selected' : '' }}>
-              {{ $label }}
-            </option>
-          @endforeach
-        </select>
-      </div>
+                        // PRICE
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">{{ __('product.price_label') }}</label>
+                            <div class="input-group">
+                                <span class="input-group-text">Rp</span>
+                                <input type="number"
+                                       name="price"
+                                       value="{{ old('price', $product->price) }}"
+                                       class="form-control"
+                                       required>
+                            </div>
+                        </div>
 
-      <div class="mb-3">
-        <label class="form-label">Price (IDR)</label>
-        <input type="number"
-               name="price"
-               value="{{ old('price', $product->price) }}"
-               class="form-control"
-               required>
-      </div>
+                        // BUTTONS (Footer)
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary fw-bold">
+                                {{ __('product.update_button') }}
+                            </button>
+                        </div>
 
-     
-      <div class="d-flex gap-2">
-        <button class="btn btn-primary">Update</button>
-        <a href="{{ route('products') }}" class="btn btn-secondary">Cancel</a>
-      </div>
+                    </form>
+                   
+                </div>
+            </div>
 
-    </form>
-
-  </div>
+        </div>
+    </div>
 </div>
 
 </x-layout>

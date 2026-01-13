@@ -9,20 +9,28 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+    $table->id();
+    $table->foreignId('user_id')->constrained()->onDelete('cascade');
 
-            $table->string('shipping_name');
-            $table->string('shipping_phone');
-            $table->text('shipping_address');
+    // ⬇️ dibuat nullable
+    $table->string('shipping_name')->nullable();
+    $table->string('shipping_phone')->nullable();
+    $table->text('shipping_address')->nullable();
 
-            $table->string('payment_method');
-            $table->integer('total');
-            $table->string('status')->default('pending');
+    $table->string('shipping_service')->nullable();
+    $table->integer('shipping_cost')->nullable();
 
-            $table->timestamps();
-        });
-    }
+    $table->string('payment_method');
+    $table->string('payment_channel');
+
+    $table->integer('total');
+    $table->string('status')->default('pending');
+
+    $table->timestamps();
+});
+
+}
+
 
     public function down(): void
     {

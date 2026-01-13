@@ -2,28 +2,48 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\CartItem;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    // LIST + FILTER + PAGINATION
+    private function categories()
+{
+    return [
+        'registration' => __('product.categories.registration'),
+        'exams'        => __('product.categories.exams'),
+        'book'        => __('product.categories.book'),
+        'items'        => __('product.categories.items'),
+        'programs'     => __('product.categories.programs'),
+    ];
+}
+
+
     public function index(Request $request)
     {
-        $query = Product::query();
+        $query  = Product::query();
+        $locale = app()->getLocale();
 
+        // SEARCH
         if ($request->filled('search')) {
-            $q = $request->search;
-            $query->where(function ($sub) use ($q) {
-                $sub->where('name', 'like', "%$q%")
-                    ->orWhere('description', 'like', "%$q%");
+            $keyword = $request->search;
+
+            $query->where(function ($q) use ($keyword) {
+                $q->where('name_id', 'like', "%{$keyword}%")
+                  ->orWhere('description_id', 'like', "%{$keyword}%")
+                  ->orWhere('name_en', 'like', "%{$keyword}%")
+                  ->orWhere('description_en', 'like', "%{$keyword}%");
             });
         }
 
+        // FILTER CATEGORY
         if ($request->filled('category')) {
             $query->where('category', $request->category);
         }
 
+        // FILTER HARGA
         if ($request->filled('min_price')) {
             $query->where('price', '>=', $request->min_price);
         }
@@ -32,98 +52,75 @@ class ProductController extends Controller
             $query->where('price', '<=', $request->max_price);
         }
 
+        // SORT
         if ($request->filled('sort')) {
-            if ($request->sort == 'name') {
-                $query->orderBy('name', 'asc');
-            } elseif ($request->sort == 'price_low') {
+            if ($request->sort === 'price_low') {
                 $query->orderBy('price', 'asc');
-            } elseif ($request->sort == 'price_high') {
+            } elseif ($request->sort === 'price_high') {
                 $query->orderBy('price', 'desc');
+            } else {
+                $query->latest();
             }
         } else {
             $query->latest();
         }
 
-        $products = $query->paginate(9)->withQueryString();
-
         return view('products.list', [
-            'products' => $products,
-            'categories' => $this->getCategories()
+            'products'   => $query->paginate(8)->withQueryString(),
+            'categories' => $this->categories(),
+            'cartCount'  => CartItem::where('user_id', Auth::id())->sum('quantity'),
+            'locale'     => $locale,
         ]);
     }
 
-    // FORM ADD
+    // CREATE DIPINDAHKAN KE LUAR INDEX
     public function create()
-    {
-        return view('products.form', [
-            'categories' => $this->getCategories()
-        ]);
-    }
+{
+    $categories = $this->categories();
+    return view('products.form', compact('categories'));
+}
 
-    // SIMPAN DATA 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'price' => 'required|numeric',
-            'category' => 'required',
-            'description' => 'nullable'
-        ]);
-
-        Product::create($request->all());
-
-        return redirect()->route('products')
-            ->with('success', 'Product added successfully!');
-    }
-
-    // DETAIL
     public function show($id)
     {
         $product = Product::findOrFail($id);
-        return view('products.show', compact('product'));
-    }
 
-    // FORM EDIT
-    public function edit($id)
-    {
-        $product = Product::findOrFail($id);
-
-        return view('products.edit', [   
-            'product' => $product,
-            'categories' => $this->getCategories()
+        return view('products.show', [
+            'product'   => $product,
+            'cartCount' => CartItem::where('user_id', Auth::id())->sum('quantity'),
         ]);
     }
 
+    public function edit($id)
+    {
+        $product = Product::findOrFail($id);
+        $categories = $this->categories();
 
-    // UPDATE
+        return view('products.edit', compact('product', 'categories'));
+    }
+
     public function update(Request $request, $id)
     {
         $product = Product::findOrFail($id);
-        $product->update($request->all());
 
-        return redirect()->route('products')
-            ->with('success', 'Product updated!');
+        $product->update([
+            'name_id'        => $request->name,
+            'description_id' => $request->description,
+            'category'       => $request->category,
+            'price'          => $request->price,
+        ]);
+
+        return redirect()
+            ->route('products.show', $product->id)
+            ->with('success', __('product.updated_success'));
     }
 
-    // DELETE
     public function destroy($id)
     {
-        $product = Product::findOrFail($id);
-        $product->delete();
+        Product::findOrFail($id)->delete();
 
-        return redirect()->route('products')->with('success', 'Product deleted successfully!');
+        return redirect()
+            ->route('products')
+            ->with('success', __('product.deleted_success'));
     }
 
-
-    // CATEGORY
-    private function getCategories()
-    {
-        return [
-            'books' => 'Books',
-            'exams' => 'Exams',
-            'registration' => 'Registration',
-            'items' => 'Items',
-            'programs' => 'Programs'
-        ];
-    }
 }

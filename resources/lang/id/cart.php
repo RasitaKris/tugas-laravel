@@ -1,0 +1,23 @@
+<?php
+return [
+    'title' => 'Keranjang Belanja Anda',
+    'image' => 'Gambar',
+    'product' => 'Produk',
+    'price' => 'Harga',
+    'quantity' => 'Jumlah',
+    'subtotal' => 'Subtotal',
+    'action' => 'Aksi',
+    'update' => 'Perbarui',
+    'remove' => 'Hapus',
+    'remove_confirm' => 'Hapus item ini?',
+    'total' => 'Total',
+    'checkout' => 'Lanjut ke Pembayaran →',
+    'subtitle' => 'Kelola item belanjaan Anda sebelum checkout.',
+    'empty' => 'Keranjang Kosong',
+    'empty_desc' => 'Keranjang Anda masih kosong. Yuk cari produk menarik!',
+    'remove_confirm' => 'Yakin ingin menghapus produk ini dari keranjang?',
+    'summary' => 'Ringkasan',
+    'total_item' => 'Total Barang',
+    'product_subtotal' => 'Subtotal Produk',
+    'continue_shopping' => 'Lanjut Belanja',
+];
