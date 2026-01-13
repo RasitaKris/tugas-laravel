@@ -1,7 +1,7 @@
 <x-layout :pageTitle="__('product.title')">
 
 <style>
-    /* CUSTOM STYLES KHUSUS PRODUK */
+    /* STYLES KHUSUS PRODUk */
     :root {
         --pastel-blue: #3f6df7;
         --pastel-dark: #2c4ebf;
@@ -80,7 +80,7 @@
     }
     .product-card:hover .card-img-wrap img { transform: scale(1.05); }
 
-    /* Admin Dropdown */
+    /* Admin Dropdown (Titik Tiga) */
     .admin-actions {
         position: absolute;
         top: 10px;
@@ -138,7 +138,7 @@
         font-size: 18px;
         font-weight: 800;
         color: var(--pastel-blue);
-        margin-top: auto; 
+        margin-top: auto; /* Push to bottom of content area */
     }
 
     /* Action Buttons */
@@ -182,14 +182,14 @@
     }
     .btn-icon-action:hover { border-color: var(--pastel-blue); color: var(--pastel-blue); background: #f8fafc; }
     .btn-icon-action.wishlist-btn:hover { border-color: #ef4444; color: #ef4444; background: #fef2f2; }
-
-    /* CUSTOM PAGINATION */
+/* === CUSTOM PAGINATION === */
     .pagination {
-        gap: 5px;
-        flex-wrap: wrap; 
+        gap: 5px; /* Jarak antar tombol */
+        flex-wrap: wrap; /* Agar turun ke bawah jika layar sangat kecil */
+    }
     
     .page-item .page-link {
-        border-radius: 8px; 
+        border-radius: 8px; /* Sudut melengkung */
         border: none;
         color: #64748b;
         font-weight: 600;
@@ -214,7 +214,7 @@
         box-shadow: 0 4px 10px rgba(63, 109, 247, 0.3);
     }
 
-    /* Tombol Disabled */
+    /* Tombol Disabled (Prev/Next mati) */
     .page-item.disabled .page-link {
         background: #f8fafc;
         color: #cbd5e1;
@@ -231,7 +231,7 @@
       </div>
     @endif
 
-   // HEADER 
+    {{-- HEADER --}}
     <div class="col-12 mb-4">
       <div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-3">
         <div>
@@ -249,7 +249,7 @@
       </div>
     </div>
 
-   // FILTER BOX 
+    {{-- FILTER BOX --}}
     <form method="GET" action="{{ route('products') }}" class="filter-box mb-5">
       <div class="row g-3 align-items-end">
           <div class="col-md-3">
@@ -299,12 +299,12 @@
       </div>
     </form>
 
-    // PRODUCT GRID 
+    {{-- PRODUCT GRID --}}
     <div class="row g-4">
     @forelse($products as $p)
       <div class="col-12 col-sm-6 col-lg-4 col-xl-3"> <div class="product-card">
 
-            // LOGIKA GAMBAR 
+            {{-- LOGIKA GAMBAR --}}
             @php
             if (!empty($p->image)) {
                 $img = asset('storage/' . $p->image);
@@ -393,7 +393,7 @@
     @endforelse
     </div>
 
-    // PAGINATION 
+    {{-- PAGINATION --}}
 <div class="mt-5 d-flex justify-content-center">
   {{ $products->onEachSide(1)->withQueryString()->links('pagination::bootstrap-5') }}
 </div>

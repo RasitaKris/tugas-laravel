@@ -123,7 +123,8 @@
                            class="form-control @error('password') is-invalid @enderror" 
                            id="floatingPassword" 
                            placeholder="Password" required>
-                    {{-- PERBAIKAN DI SINI: Menggunakan 'auth.label_password' --}}
+                    
+                
                     <label for="floatingPassword">
                         <i class="bi bi-lock me-1"></i> {{ __('auth.label_password') }}
                     </label>

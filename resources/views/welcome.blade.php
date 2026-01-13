@@ -1,11 +1,10 @@
 <x-layout :pageTitle="__('home.title')">
 
-// HERO SECTION 
+{{-- HERO SECTION --}}
 <div class="row align-items-center mb-5 gx-5">
     <div class="col-lg-7 mb-4 mb-lg-0">
         <div style="background: linear-gradient(135deg, #1e3c72 0%, #2a6fdb 100%); border-radius: 24px; padding: 40px; box-shadow: 0 10px 30px rgba(30, 60, 114, 0.3); color: white; position: relative; overflow: hidden;">
-            
-        // Dekorasi Latar Belakang 
+            {{-- Dekorasi Latar Belakang --}}
             <div style="position: absolute; top: -20px; right: -20px; width: 150px; height: 150px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
             
             <h1 class="fw-bold mb-3 display-5" style="letter-spacing: -1px;">
@@ -29,7 +28,7 @@
         </div>
     </div>
 
-    // HERO IMAGE
+    {{-- HERO IMAGE --}}
     <div class="col-lg-5">
         <div class="position-relative">
             <div style="position: absolute; inset: 0; background: var(--pastel-blue); transform: rotate(3deg); border-radius: 24px; z-index: -1; opacity: 0.2;"></div>
@@ -41,7 +40,7 @@
     </div>
 </div>
 
-// GALLERY SECTION 
+{{-- GALLERY SECTION --}}
 <div class="py-4">
     <div class="d-flex justify-content-between align-items-end mb-4">
         <div>
@@ -82,7 +81,7 @@
     </div>
 </div>
 
-// MODAL 
+{{-- MODAL --}}
 <div class="modal fade" id="imageModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content bg-transparent border-0 shadow-none">

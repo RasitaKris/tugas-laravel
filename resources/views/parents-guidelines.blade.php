@@ -17,7 +17,7 @@
     <div class="container py-4">
         <div class="parents-card col-lg-10 mx-auto">
             
-        // Header 
+        {{-- Header --}}
             <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
                 <i class="bi bi-people text-info me-3" style="font-size: 2.5rem;"></i>
                 <div>
@@ -26,7 +26,7 @@
                 </div>
             </div>
 
-            // List Points 
+            {{-- List Points --}}
             <div class="list-group-custom">
                 @foreach(__('parents.points') as $point)
                     <div class="list-item">
@@ -36,7 +36,7 @@
                 @endforeach
             </div>
 
-            // Button Back 
+            {{-- Button Back --}}
             <div class="mt-4 pt-3 border-top text-center">
                 <a href="{{ url('/') }}" class="btn btn-outline-primary rounded-pill px-4 fw-bold">
                     <i class="bi bi-arrow-left me-2"></i> {{ __('parents.back') }}

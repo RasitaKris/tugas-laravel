@@ -53,7 +53,7 @@
 
     <div class="row g-4 justify-content-center">
 
-        {{-- KARTU 1: FOTO & DATA DIRI --}}
+        {{-- FOTO & DATA DIRI --}}
         <div class="col-lg-6">
             <div class="soft-card h-100">
                 
@@ -132,7 +132,7 @@
             </div>
         </div>
 
-        {{-- KARTU 2: KEAMANAN (PASSWORD) --}}
+        {{-- KEAMANAN (PASSWORD) --}}
         <div class="col-lg-6">
             <div class="soft-card h-100">
                 <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
@@ -177,7 +177,7 @@
 
     </div>
 
-    {{-- Script JavaScript untuk Preview Gambar --}}
+
     <script>
         function previewImage(event) {
             const reader = new FileReader();

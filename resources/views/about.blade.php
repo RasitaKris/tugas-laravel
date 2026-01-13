@@ -16,8 +16,7 @@
     </style>
 
     <div class="container py-4">
-        
-    // INTRO UTAMA 
+        {{-- INTRO UTAMA --}}
         <div class="about-card mb-4">
             <i class="bi bi-building-check section-icon"></i>
             <h2 class="section-heading">{{ __('about.heading') }}</h2>
@@ -27,8 +26,7 @@
         </div>
 
         <div class="row g-4">
-            
-        // MISI
+            {{-- MISI --}}
             <div class="col-lg-6">
                 <div class="about-card">
                     <i class="bi bi-bullseye section-icon text-danger"></i>
@@ -39,7 +37,7 @@
                 </div>
             </div>
 
-            // DELIVERY MODEL 
+            {{-- DELIVERY MODEL --}}
             <div class="col-lg-6">
                 <div class="about-card">
                     <i class="bi bi-laptop section-icon text-success"></i>

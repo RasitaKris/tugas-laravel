@@ -2,7 +2,7 @@
 
 <div class="container py-4">
 
-    // HEADER
+    {{-- HEADER --}}
     <div class="d-flex align-items-center mb-4 gap-3">
         <div class="bg-white p-2 rounded-circle shadow-sm text-primary d-flex justify-content-center align-items-center" style="width: 50px; height: 50px;">
             <i class="bi bi-bag-check fs-4"></i>
@@ -13,14 +13,14 @@
         </div>
     </div>
 
-    // ALERT SUKSES
+    {{-- ALERT SUKSES --}}
     @if(session('success'))
         <div class="alert alert-success border-0 shadow-sm rounded-3 mb-4 d-flex align-items-center gap-2">
             <i class="bi bi-check-circle-fill fs-5"></i> {{ session('success') }}
         </div>
     @endif
 
-    // DAFTAR PESANAN
+    {{-- DAFTAR PESANAN --}}
     @forelse($orders as $order)
         <div class="soft-card mb-3 p-4 d-flex flex-wrap align-items-center justify-content-between gap-3 shadow-sm border border-light position-relative">
             
@@ -43,10 +43,9 @@
                 </div>
             </div>
 
-            // Status & Tombol
+            {{-- Status & Tombol --}}
             <div class="d-flex align-items-center gap-3 ms-md-auto flex-wrap">
-                
-            // Badge Status
+                {{-- Badge Status --}}
                 @if($order->status == 'pending')
                     <span class="badge bg-warning text-dark rounded-pill px-3 py-2 border border-warning-subtle">
                         <i class="bi bi-hourglass-split me-1"></i> {{ __('order.status_pending') }}
@@ -68,7 +67,7 @@
 
         </div>
     @empty
-        {{-- KONDISI KOSONG (Fix Error $cart) --}}
+        {{-- KONDISI KOSONG --}}
         <div class="text-center py-5 bg-white rounded-4 shadow-sm border border-light">
             <div class="text-muted mb-3" style="font-size: 4rem; opacity: 0.3;">
                 <i class="bi bi-clipboard-x"></i>
@@ -81,7 +80,7 @@
         </div>
     @endforelse
 
-    // PAGINATION
+    {{-- PAGINATION --}}
     <div class="mt-4 d-flex justify-content-center">
         {{ $orders->onEachSide(1)->links('pagination::bootstrap-5') }}
     </div>

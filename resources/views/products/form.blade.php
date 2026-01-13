@@ -18,21 +18,20 @@
                 <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
-                    // Nama Produk
+                    {{-- Nama Produk --}}
                     <div class="mb-3">
                         <label class="form-label fw-bold small text-muted">{{ __('product.name') }}</label>
                         <input type="text" name="name" class="form-control form-control-lg fs-6" placeholder="Contoh: Seragam Sekolah SD" required>
                     </div>
 
-                    // Deskripsi
+                    {{-- Deskripsi --}}
                     <div class="mb-3">
                         <label class="form-label fw-bold small text-muted">{{ __('product.description') }}</label>
                         <textarea name="description" class="form-control" rows="4" placeholder="Jelaskan detail produk..."></textarea>
                     </div>
 
                     <div class="row">
-
-                        // Kategori 
+                        {{-- Kategori --}}
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold small text-muted">{{ __('product.category') }}</label>
                             <select name="category" class="form-select" required>
@@ -42,7 +41,7 @@
                             </select>
                         </div>
 
-                        // Harga
+                        {{-- Harga --}}
                         <div class="col-md-6 mb-4">
                             <label class="form-label fw-bold small text-muted">{{ __('product.price') }} (Rp)</label>
                             <div class="input-group">

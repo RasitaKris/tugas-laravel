@@ -11,7 +11,7 @@ class ProductSeeder extends Seeder
     {
         $products = [
 
-            // ================= REGISTRATION =================
+          
             [
                 'name' => 'Biaya Pendaftaran Sekolah',
                 'description' => 'Biaya administrasi pendaftaran siswa baru',
@@ -43,7 +43,7 @@ class ProductSeeder extends Seeder
                 'price' => 300000,
             ],
 
-            // ================= EXAMS =================
+           
             [
                 'name' => 'Biaya UTS SD',
                 'description' => 'Biaya ujian tengah semester tingkat SD',
@@ -105,7 +105,7 @@ class ProductSeeder extends Seeder
                 'price' => 200000,
             ],
 
-            // ================= BOOKS =================
+           
             [
                 'name' => 'Buku Pendidikan Agama Kristen',
                 'description' => 'Buku pelajaran Pendidikan Agama Kristen',
@@ -207,7 +207,7 @@ class ProductSeeder extends Seeder
                 'price' => 48000,
             ],
 
-            // ================= ITEMS =================
+           
             [
                 'name' => 'Seragam Sekolah',
                 'description' => 'Seragam sekolah lengkap',
@@ -269,7 +269,7 @@ class ProductSeeder extends Seeder
                 'price' => 220000,
             ],
 
-            // ================= PROGRAMS =================
+          
             [
                 'name' => 'Biaya Kegiatan Ekstrakurikuler',
                 'description' => 'Biaya kegiatan ekstrakurikuler siswa',

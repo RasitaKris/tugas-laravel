@@ -10,11 +10,10 @@
     <div class="row g-4">
     @forelse($wishlist as $p)
       <div class="col-md-6 col-lg-4 col-xl-3">
-
-        // Menggunakan Style Produk Card yang sudah ada
+        {{-- Menggunakan Style Produk Card yang sudah ada --}}
         <div class="bg-white rounded-4 shadow-sm h-100 d-flex flex-column border border-light overflow-hidden position-relative product-card-hover">
             
-            // Gambar
+            {{-- Gambar --}}
             @php
             if (!empty($p->image)) {
                 $img = asset('storage/' . $p->image);

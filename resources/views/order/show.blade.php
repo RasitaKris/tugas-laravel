@@ -13,7 +13,7 @@
     </div>
 
     <div class="row g-4">
-        // KOLOM KIRI
+        {{-- KOLOM KIRI --}}
         <div class="col-lg-8">
             <div class="soft-card h-100">
                 <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
@@ -73,7 +73,7 @@
             </div>
         </div>
 
-        // KOLOM KANAN 
+        {{-- KOLOM KANAN --}}
         <div class="col-lg-4">
             <div class="soft-card h-100">
                 <h5 class="fw-bold mb-4 border-bottom pb-3 text-primary">💳 {{ __('order.payment_info') }}</h5>

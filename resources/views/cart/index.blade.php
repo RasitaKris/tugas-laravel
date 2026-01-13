@@ -2,7 +2,7 @@
 
 <div class="container py-4">
 
-    // HEADER: Judul & Ikon
+    {{-- HEADER --}}
     <div class="d-flex align-items-center mb-4 gap-3">
         <div class="bg-white p-2 rounded-circle shadow-sm text-primary d-flex justify-content-center align-items-center" style="width: 50px; height: 50px;">
             <i class="bi bi-cart3 fs-4"></i>
@@ -13,14 +13,14 @@
         </div>
     </div>
 
-    //ALERT: Pesan Sukses
+    {{-- ALERT --}}
     @if(session('success'))
         <div class="alert alert-success border-0 shadow-sm rounded-3 mb-4 d-flex align-items-center gap-2">
             <i class="bi bi-check-circle-fill fs-5"></i> {{ session('success') }}
         </div>
     @endif
 
-    //KONDISI: Jika Keranjang Kosong
+    {{-- KONDISI: Keranjang Kosong --}}
     @if($cart->count() == 0)
         <div class="text-center py-5 bg-white rounded-4 shadow-sm border border-light">
             <div class="text-muted mb-3" style="font-size: 4rem; opacity: 0.3;">
@@ -34,10 +34,10 @@
         </div>
     @else
     
-    // KONDISI: Ada Barang
+    {{-- KONDISI: Ada Barang --}}
     <div class="row g-4">
         
-        // Daftar Item
+        {{-- Daftar Item --}}
         <div class="col-lg-8">
             <div class="d-flex flex-column gap-3">
                 @foreach($cart as $item)
@@ -75,7 +75,7 @@
                         </form>
                     </div>
 
-                    {{-- Subtotal & Hapus (Desktop) --}}
+                    {{-- Subtotal & Hapus --}}
                     <div class="text-end d-none d-md-block ps-3 border-start">
                         <small class="text-muted d-block mb-1" style="font-size: 11px;">Subtotal</small>
                         <h5 class="fw-bold mb-3 text-dark">Rp {{ number_format($subtotal, 0, ',', '.') }}</h5>
@@ -88,7 +88,7 @@
                         </form>
                     </div>
 
-                    {{-- Tombol Hapus (Mobile / Kecil) --}}
+                    {{-- Tombol Hapus --}}
                     <div class="d-md-none position-absolute top-0 end-0 m-2">
                          <form action="{{ route('cart.remove', $item->id) }}" method="POST">
                             @csrf @method('DELETE')
@@ -103,7 +103,7 @@
             </div>
         </div>
 
-        // Ringkasan Belanja
+        {{-- Ringkasan Belanja --}}
         <div class="col-lg-4">
             <div class="bg-white p-4 rounded-4 shadow-sm border border-light sticky-top" style="top: 100px;">
                 <h5 class="fw-bold mb-4 d-flex align-items-center gap-2">
@@ -143,7 +143,7 @@
 
 </div>
 
-// Style Efek Hover
+{{-- Style Efek Hover --}}
 <style>
     .hover-scale:hover {
         transform: translateY(-2px);
